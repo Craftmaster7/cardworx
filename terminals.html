@@ -245,13 +245,13 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 .tc:hover::after{opacity:1}
 .tc.noimg .im{display:none}.tc.noimg{padding-top:3.4rem}
 .tc .im{height:170px;display:grid;place-items:center;transform:translateZ(40px);transition:transform .5s}
-.tc .im img{max-height:100%;max-width:100%;width:auto;object-fit:contain;filter:drop-shadow(0 30px 30px rgba(0,0,0,.7))}
+.tc .im img{max-height:170px;max-width:100%;width:auto;object-fit:contain;filter:drop-shadow(0 30px 30px rgba(0,0,0,.7))}
 .tc:hover .im{transform:translateZ(60px) translateY(-8px)}
 .tc h3{font-size:1.15rem;margin:1.2rem 0 .3rem}
 .tc p{font-size:.85rem;color:var(--dim)}
 .tc .tag{position:absolute;top:1rem;right:1rem;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;padding:.35rem .6rem;border-radius:999px;background:color-mix(in srgb,var(--gold) 20%,transparent);color:var(--gold2)}
 .tc.wide{grid-column:span 2;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:1rem;background:linear-gradient(135deg,color-mix(in srgb,var(--gold) 14%,var(--bg2)),var(--bg2))}
-.tc.wide .im{height:200px}
+.tc.wide .im{height:200px}.tc.wide .im img{max-height:200px}
 @media(max-width:1000px){.tgrid{grid-template-columns:1fr 1fr}.term .head{grid-template-columns:1fr}}
 @media(max-width:560px){.tgrid{grid-template-columns:1fr}.tc.wide{grid-column:span 1;grid-template-columns:1fr}}
 
@@ -450,7 +450,7 @@ html[data-gen="1"] .ovl{display:block}
   <div class="asm-pin" id="asmPin">
     <canvas id="asmGl"></canvas>
     <div class="wrap asm-copy">
-      <div class="asm-step" data-step="0"><span class="eb">Engineered to take every payment</span><h2 class="h2">Built <em>piece by piece</em> for your counter.</h2><p class="lead">Keep scrolling. Watch the terminal come together.</p></div>
+      <div class="asm-step" data-step="0"><span class="eb">Engineered to take every payment</span><h2 class="h2">The Valor VP550, <em>piece by piece.</em></h2><p class="lead">Keep scrolling. Watch the handheld come together.</p></div>
       <div class="asm-step" data-step="1"><span class="eb">Secure core</span><h2 class="h2">PCI compliant. <em>EMV encrypted.</em></h2><p class="lead">Every device ships with end to end encryption and PIN pad certification, protecting you and your customers from fraud.</p></div>
       <div class="asm-step" data-step="2"><span class="eb">Tap, dip, swipe</span><h2 class="h2">Contactless, chip, <em>mobile wallets.</em></h2><p class="lead">Apple Pay, Google Pay, EMV chip and magstripe. Dual Pricing programmed out of the box so both prices display automatically.</p></div>
       <div class="asm-step" data-step="3"><span class="eb">Ready in days</span><h2 class="h2">Free with Dual Pricing. <em>Shipped to you.</em></h2><p class="lead">Plug in, post the signage, start keeping 100%. 24/7 support in English and Spanish if you ever need a hand.</p><a href="#merchant-form" class="btn btn-teal" style="margin-top:1.4rem">Get my free terminal</a></div>
@@ -735,7 +735,7 @@ const s=document.createElement('style');s.textContent='@media(max-width:900px){.
   const canvas=document.getElementById('asmGl');if(!canvas)return;
   const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
   renderer.setPixelRatio(Math.min(devicePixelRatio,1.6));renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
-  renderer.outputEncoding=THREE.sRGBEncoding;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;
+  renderer.outputEncoding=THREE.sRGBEncoding;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=.95;
   const scene=new THREE.Scene();
   const cam=new THREE.PerspectiveCamera(32,1,.1,100);cam.position.set(4.5,2.2,11);cam.lookAt(1.2,-.2,0);
   scene.add(new THREE.HemisphereLight(0xdfe8ff,0x0a0e17,.55));
@@ -744,44 +744,56 @@ const s=document.createElement('style');s.textContent='@media(max-width:900px){.
   const fill=new THREE.PointLight(0xd9b45a,1.4,40);fill.position.set(6,-2,4);scene.add(fill);
   const floor=new THREE.Mesh(new THREE.PlaneGeometry(40,40),new THREE.ShadowMaterial({opacity:.45}));floor.rotation.x=-Math.PI/2;floor.position.y=-3.05;floor.receiveShadow=true;scene.add(floor);
 
-  const model=new THREE.Group();model.position.x=1.4;scene.add(model);
+  const model=new THREE.Group();model.position.x=3.5;model.scale.setScalar(.56);scene.add(model);
   const parts=[];
-  const M=(o={})=>new THREE.MeshPhysicalMaterial(Object.assign({color:0x1b1f26,metalness:.25,roughness:.42,clearcoat:.7,clearcoatRoughness:.25},o));
+  const M=(o={})=>new THREE.MeshPhysicalMaterial(Object.assign({color:0xf3f3f1,metalness:0,roughness:.42,clearcoat:.5,clearcoatRoughness:.3},o));
+  const DK=(o={})=>new THREE.MeshPhysicalMaterial(Object.assign({color:0x14171c,metalness:.2,roughness:.35,clearcoat:.8,clearcoatRoughness:.2},o));
   function add(geo,mat,pos,rot,order,from){const m=new THREE.Mesh(geo,mat);m.castShadow=m.receiveShadow=true;
     m.userData={to:new THREE.Vector3(...pos),toR:new THREE.Euler(...(rot||[0,0,0])),from:new THREE.Vector3(...from),fromR:new THREE.Euler((Math.random()-.5)*4,(Math.random()-.5)*4,(Math.random()-.5)*3),order};
     model.add(m);parts.push(m);return m}
-  // body
-  add(new THREE.BoxGeometry(3.2,5.6,.75),M(),[0,0,0],null,0,[-7,-4,-3]);
-  add(new THREE.BoxGeometry(3.0,5.4,.12),M({color:0x2a2f38,roughness:.5}),[0,0,.42],null,.06,[6,5,-4]);
-  // bezel + screen
-  add(new THREE.BoxGeometry(2.7,2.6,.14),M({color:0x05070c,roughness:.15,clearcoat:1}),[0,1.15,.5],null,.16,[-5,6,3]);
-  const c=document.createElement('canvas');c.width=512;c.height=480;const g=c.getContext('2d');
-  const grd=g.createLinearGradient(0,0,0,480);grd.addColorStop(0,'#0e1a2b');grd.addColorStop(1,'#071018');g.fillStyle=grd;g.fillRect(0,0,512,480);
-  g.fillStyle='#38e3c2';g.font='700 26px Syne, sans-serif';g.fillText('CARDWORX',36,58);g.fillStyle='#8b93a7';g.font='500 20px Figtree, sans-serif';g.fillText('DUAL PRICING',36,90);
-  g.fillStyle='#f4f1ea';g.font='700 34px Figtree, sans-serif';g.fillText('Cash price',36,180);g.fillStyle='#38e3c2';g.font='800 64px Syne, sans-serif';g.fillText('$42.00',36,250);
-  g.fillStyle='#f4f1ea';g.font='700 34px Figtree, sans-serif';g.fillText('Card price',36,330);g.fillStyle='#d9b45a';g.font='800 64px Syne, sans-serif';g.fillText('$43.68',36,400);
-  g.fillStyle='#38e3c2';g.beginPath();g.arc(450,60,22,0,6.28);g.fill();g.fillStyle='#05070c';g.font='700 18px sans-serif';g.fillText('))',438,67);
-  const tex=new THREE.CanvasTexture(c);tex.encoding=THREE.sRGBEncoding;
-  add(new THREE.PlaneGeometry(2.45,2.3),new THREE.MeshBasicMaterial({map:tex}),[0,1.15,.58],null,.24,[0,9,6]);
-  // glass over screen
-  add(new THREE.PlaneGeometry(2.5,2.36),new THREE.MeshPhysicalMaterial({color:0xffffff,transparent:true,opacity:.08,roughness:0,clearcoat:1,transmission:.2}),[0,1.15,.585],null,.26,[0,9,7]);
-  // contactless ring
-  add(new THREE.TorusGeometry(.22,.035,16,48),M({color:0x38e3c2,emissive:0x1fa88c,emissiveIntensity:.6,metalness:.6}),[1.05,2.32,.6],[0,0,0],.3,[8,8,2]);
-  // keypad
-  const keyG=new THREE.BoxGeometry(.66,.42,.14);const labels=['1','2','3','4','5','6','7','8','9','*','0','#'];
-  for(let r=0;r<4;r++)for(let col=0;col<3;col++){const i=r*3+col;
-    add(keyG,M({color:0xe6e2d8,metalness:0,roughness:.55,clearcoat:.3}),[-.8+col*.8,-.55-r*.55,.5],null,.34+i*.03,[(Math.random()-.5)*14,(Math.random()-.5)*10,(Math.random()-.5)*6])}
-  add(new THREE.BoxGeometry(.66,.42,.14),M({color:0xd9463b,roughness:.5}),[-.8,-2.85,.5],null,.74,[-6,-8,2]);
-  add(new THREE.BoxGeometry(.66,.42,.14),M({color:0xd9b45a,roughness:.5}),[0,-2.85,.5],null,.77,[0,-9,2]);
-  add(new THREE.BoxGeometry(.66,.42,.14),M({color:0x2fbf7a,roughness:.5}),[.8,-2.85,.5],null,.8,[6,-8,2]);
-  // printer roll + slot
-  add(new THREE.CylinderGeometry(.38,.38,2.6,32),M({color:0xf1ede4,metalness:0,roughness:.9,clearcoat:0}),[0,3.05,-.05],[0,0,Math.PI/2],.86,[-8,7,-4]);
-  add(new THREE.BoxGeometry(2.8,.06,.3),M({color:0x0b0e14}),[0,2.72,.4],null,.9,[8,3,3]);
-  // card slot + chip reader at bottom
-  add(new THREE.BoxGeometry(2.4,.12,.36),M({color:0x0b0e14}),[0,-2.75,.05],[0,0,0],.94,[0,-9,0]);
-  // a card sliding in at the very end
-  const card=add(new THREE.BoxGeometry(1.7,1.05,.03),M({color:0x101827,metalness:.5,roughness:.3,clearcoat:1}),[0,-3.35,.12],[.35,0,0],1,[0,-7,3]);
-  const chip=new THREE.Mesh(new THREE.BoxGeometry(.32,.26,.02),M({color:0xd9b45a,metalness:.9,roughness:.3}));chip.position.set(-.5,.15,.02);card.add(chip);
+  function rbox(w,h,d,r){const sh=new THREE.Shape();const x=-w/2,y=-h/2;sh.moveTo(x+r,y);sh.lineTo(x+w-r,y);sh.quadraticCurveTo(x+w,y,x+w,y+r);sh.lineTo(x+w,y+h-r);sh.quadraticCurveTo(x+w,y+h,x+w-r,y+h);sh.lineTo(x+r,y+h);sh.quadraticCurveTo(x,y+h,x,y+h-r);sh.lineTo(x,y+r);sh.quadraticCurveTo(x,y,x+r,y);
+    const g=new THREE.ExtrudeGeometry(sh,{depth:d,bevelEnabled:true,bevelThickness:.06,bevelSize:.06,bevelSegments:4,curveSegments:12});g.translate(0,0,-d/2);return g}
+  /* ===== Valor VP550: white Android handheld with printer cap ===== */
+  // main body (front half) and grip (back half)
+  add(rbox(3.0,6.2,.55,.38),M(),[0,-.3,0],null,0,[-7,-4,-3]);
+  add(rbox(2.6,5.4,.7,.5),M({color:0xecece9}),[0,-.5,-.6],null,.06,[6,4,-6]);
+  // printer cap on top, slightly deeper than the body
+  add(rbox(3.1,1.35,1.25,.32),M(),[0,3.1,-.32],null,.14,[-6,8,-2]);
+  // paper roll inside the cap + serrated paper slot at the front lip
+  add(new THREE.CylinderGeometry(.42,.42,2.6,32),M({color:0xf8f6f0,roughness:.9,clearcoat:0}),[0,3.1,-.3],[0,0,Math.PI/2],.2,[-8,7,-4]);
+  add(new THREE.BoxGeometry(2.7,.07,.28),DK({color:0x0b0e14}),[0,2.46,.34],null,.24,[8,3,3]);
+  // contactless mark on the cap
+  add(new THREE.TorusGeometry(.26,.03,12,48),DK({color:0x2a2e35}),[0,3.79,-.45],[Math.PI/2,0,0],.28,[8,8,2]);
+  add(new THREE.CylinderGeometry(.06,.06,.02,16),DK({color:0x2a2e35}),[0,3.79,-.45],null,.29,[8,8,3]);
+  // black bezel and the screen
+  add(rbox(2.72,4.75,.12,.22),DK({color:0x05070c,roughness:.15,clearcoat:1}),[0,-.15,.31],null,.34,[-5,6,3]);
+  const c=document.createElement('canvas');c.width=512;c.height=900;const g=c.getContext('2d');
+  g.fillStyle='#ffffff';g.fillRect(0,0,512,900);
+  g.fillStyle='#1b1b1f';g.fillRect(0,0,512,110);g.fillStyle='#fff';g.font='600 30px Inter, sans-serif';g.textAlign='center';g.fillText('Inventory',256,72);g.textAlign='left';g.font='500 26px Inter, sans-serif';g.fillText('\u2190',26,74);
+  g.fillStyle='#f2f2f4';g.fillRect(24,128,464,52);g.fillStyle='#8a8f98';g.font='400 20px Inter, sans-serif';g.fillText('Search for products or items',60,161);
+  const chips=[['All items',true],['Hot drinks',false],['Cool drinks',false],['Sweets',false]];let cx=24;
+  chips.forEach(([t,on])=>{const w=g.measureText(t).width+38;g.fillStyle=on?'#1b1b1f':'#fff';g.strokeStyle='#d7d9de';g.lineWidth=2;g.beginPath();g.roundRect?g.roundRect(cx,200,w,44,22):g.rect(cx,200,w,44);g.fill();g.stroke();g.fillStyle=on?'#fff':'#333';g.font='500 19px Inter, sans-serif';g.fillText(t,cx+19,229);cx+=w+10});
+  const items=[['Pancakes','11.35','11.02'],['Bacon','12.75','12.32'],['Plain bagel','13.00','12.62'],['Hazelnut truffle','15.25','14.81'],['Burger','12.75','12.32'],['Soft serve','11.35','11.02']];
+  items.forEach(([n,card,cash],i)=>{const y=280+i*100;g.fillStyle='#f6f6f8';g.beginPath();g.arc(58,y+26,24,0,6.28);g.fill();
+    g.fillStyle='#1b1b1f';g.font='600 23px Inter, sans-serif';g.fillText(n,100,y+14);
+    g.fillStyle='#2b7de9';g.fillRect(100,y+30,26,18);g.fillStyle='#1b1b1f';g.font='600 21px Inter, sans-serif';g.fillText('$ '+card,136,y+46);
+    g.fillStyle='#2fbf7a';g.fillRect(250,y+30,26,18);g.fillStyle='#1b1b1f';g.fillText('$ '+cash,286,y+46);
+    g.fillStyle='#e9eaee';g.fillRect(24,y+72,464,2)});
+  const tex=new THREE.CanvasTexture(c);tex.encoding=THREE.sRGBEncoding;tex.anisotropy=8;
+  add(new THREE.PlaneGeometry(2.5,4.4),new THREE.MeshBasicMaterial({map:tex}),[0,-.2,.445],null,.42,[0,9,6]);
+  add(new THREE.PlaneGeometry(2.56,4.5),new THREE.MeshPhysicalMaterial({color:0xffffff,transparent:true,opacity:.08,roughness:0,clearcoat:1}),[0,-.2,.45],null,.46,[0,9,7]);
+  // front camera dot above the screen
+  add(new THREE.CylinderGeometry(.06,.06,.02,16),DK({color:0x0a0c10}),[0,2.32,.44],[Math.PI/2,0,0],.5,[3,7,4]);
+  // magstripe track on the right edge and chip slot at the bottom
+  add(new THREE.BoxGeometry(.06,4.2,.24),DK({color:0x0b0e14}),[1.52,-.2,0],null,.56,[7,-3,0]);
+  add(new THREE.BoxGeometry(2.0,.12,.3),DK({color:0x0b0e14}),[0,-3.32,.08],null,.62,[0,-9,0]);
+  // model label on the cap
+  const lc=document.createElement('canvas');lc.width=256;lc.height=96;const lg=lc.getContext('2d');lg.fillStyle='#1b1b1f';lg.font='700 54px Inter, sans-serif';lg.fillText('VP550',8,66);
+  const ltex=new THREE.CanvasTexture(lc);ltex.encoding=THREE.sRGBEncoding;
+  add(new THREE.PlaneGeometry(.9,.34),new THREE.MeshBasicMaterial({map:ltex,transparent:true}),[-.95,2.86,.31],null,.68,[-6,6,4]);
+  // a card sliding into the chip slot at the very end
+  const card=add(new THREE.BoxGeometry(1.7,1.05,.03),DK({color:0x101827,metalness:.5,roughness:.3,clearcoat:1}),[0,-3.55,-.02],[.12,0,0],1,[0,-7,3]);
+  const chip=new THREE.Mesh(new THREE.BoxGeometry(.32,.26,.02),new THREE.MeshPhysicalMaterial({color:0xd9b45a,metalness:.9,roughness:.3}));chip.position.set(-.5,.15,.02);card.add(chip);
 
   const N=parts.length;
   function ease(t){return t<0?0:t>1?1:1-Math.pow(1-t,3)}
@@ -792,9 +804,9 @@ const s=document.createElement('style');s.textContent='@media(max-width:900px){.
       p.position.lerpVectors(d.from,d.to,local);
       p.rotation.set(d.fromR.x+(d.toR.x-d.fromR.x)*local,d.fromR.y+(d.toR.y-d.fromR.y)*local,d.fromR.z+(d.toR.z-d.fromR.z)*local)});
   }
-  function resize(){const w=canvas.clientWidth,h=canvas.clientHeight;renderer.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();if(w<900){model.position.x=0;cam.position.set(2.5,3,13)}else{model.position.x=1.4;cam.position.set(4.5,2.2,11)}cam.lookAt(model.position.x,-.2,0)}
+  function resize(){const w=canvas.clientWidth,h=canvas.clientHeight;renderer.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();if(w<900){model.position.x=0;cam.position.set(2.5,3,13)}else{model.position.x=3.5;cam.position.set(4.5,2.2,11)}cam.lookAt(w<900?0:.6,-.2,0)}
   addEventListener('resize',resize);resize();
-  function tick(){const t=clock.getElapsedTime();model.rotation.y=-.9+progress*1.25+Math.sin(t*.7)*.04;model.rotation.x=Math.sin(t*.5)*.03;model.position.y=Math.sin(t*.9)*.06;place();renderer.render(scene,cam);requestAnimationFrame(tick)}
+  function tick(){const t=clock.getElapsedTime();model.rotation.y=-.9+progress*1.25+Math.sin(t*.7)*.04;model.rotation.x=Math.sin(t*.5)*.03;model.position.y=-.35+Math.sin(t*.9)*.06;place();renderer.render(scene,cam);requestAnimationFrame(tick)}
   tick();
   const steps=document.querySelectorAll('.asm-step');
   function setStep(p){const i=p<.22?0:p<.5?1:p<.8?2:3;steps.forEach((s,k)=>s.classList.toggle('on',k===i))}
