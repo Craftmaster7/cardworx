@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Run by the GitHub Action or locally; idempotent.
 # Downloads every image the site needs into ./assets (Wix originals + Higgsfield generations).
 cd "$(dirname "$0")"; mkdir -p assets
 for f in assets-manifest.txt generated-manifest.txt; do
