@@ -171,7 +171,7 @@ nav.open .burger span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
 
 /* Hero */
 .hero{min-height:100vh;display:grid;align-items:center;padding:9rem 0 6rem}
-.hero .wrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(min(42vw,560px),.95fr);gap:3.5rem;align-items:center}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,.95fr) minmax(min(48vw,680px),1.05fr);gap:3rem;align-items:center}
 .hero h1{font-size:clamp(3rem,6vw,6.2rem)}
 .hero h1 .ln{display:block;overflow:hidden}
 .hero h1 .ln span{display:block;transform:translateY(110%)}
@@ -889,9 +889,14 @@ if(!lowPower)(function(){
     group.add(holder);items.push(holder);
   }
   [['assets/coin-btc.png',-6.5,4,-2.2,0xd9b45a,'\u20bf','#fff2c4',['#f1cf6a','#8a6512']],['assets/coin-eth.png',6.2,-6,-5.4,0xcfd6e0,'\u039e','#ffffff',['#e6ebf2','#6f7885']]].forEach(([src,x,y,z,tint,sym,fg,bg],k)=>{
-    const fallback=()=>buildCoin(drawnFace(sym,fg,bg),x,y,z,tint,k);
+    const build=tex=>{buildCoin(tex,x,y,z,tint,k);
+      /* a shower of smaller coins that drift down and respawn at the top */
+      for(let i=0;i<6;i++){const sx=(Math.random()-.5)*20,sy=8+Math.random()*16,sz=-3-Math.random()*8;
+        buildCoin(tex,sx,sy,sz,tint,k);const h=items[items.length-1];const sc=.35+Math.random()*.35;h.scale.setScalar(sc);
+        h.userData.fall=.012+Math.random()*.016;h.userData.amp=.08;h.userData.rs.set((Math.random()-.5)*.02,(Math.random()-.5)*.03,(Math.random()-.5)*.01)}};
+    const fallback=()=>build(drawnFace(sym,fg,bg));
     if(location.protocol==='file:'){fallback();return}
-    tl.load(src,tex=>{tex.encoding=THREE.sRGBEncoding;tex.anisotropy=8;buildCoin(tex,x,y,z,tint,k)},undefined,fallback);
+    tl.load(src,tex=>{tex.encoding=THREE.sRGBEncoding;tex.anisotropy=8;build(tex)},undefined,fallback);
   });
   const target={x:0,y:0};let mouse={x:0,y:0};
   addEventListener('pointermove',e=>{mouse.x=(e.clientX/innerWidth-.5)*2;mouse.y=(e.clientY/innerHeight-.5)*2});
@@ -908,7 +913,7 @@ if(!lowPower)(function(){
     target.x+=(mouse.x*1.1-target.x)*.04;target.y+=(-mouse.y*.8-target.y)*.04;
     cam.position.x=target.x;cam.position.y=target.y;cam.lookAt(0,group.position.y*.3,0);
     accent.lerp(accentTarget,.03);l1.color.copy(accent);
-    items.forEach(m=>{m.rotation.x+=m.userData.rs.x;m.rotation.y+=m.userData.rs.y;m.rotation.z+=m.userData.rs.z;m.position.y=m.userData.base+Math.sin(t*.45+m.userData.ph)*m.userData.amp});
+    items.forEach(m=>{m.rotation.x+=m.userData.rs.x;m.rotation.y+=m.userData.rs.y;m.rotation.z+=m.userData.rs.z;if(m.userData.fall){m.userData.base-=m.userData.fall;if(m.userData.base<-14){m.userData.base=14;m.position.x=(Math.random()-.5)*20}}m.position.y=m.userData.base+Math.sin(t*.45+m.userData.ph)*m.userData.amp});
     renderer.render(scene,cam);requestAnimationFrame(tick);
   }
   if(!reduced)tick();else renderer.render(scene,cam);
