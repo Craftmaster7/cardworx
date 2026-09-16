@@ -1,4 +1,4 @@
-hero.jpg|https://d8j0ntlcm91z4.cloudfront.net/user_3IPbGKFr8zpRIlx7VXBomh5mOI3/hf_20260916_044142_8fed5c10-5777-4d9a-bffb-31caaca92f24.png
+hero.jpg|https://d8j0ntlcm91z4.cloudfront.net/user_3IPbGKFr8zpRIlx7VXBomh5mOI3/hf_20260916_043639_8fed5c10-5777-4d9a-bffb-31caaca92f24.png
 ind-restaurants.jpg|https://d8j0ntlcm91z4.cloudfront.net/user_3IPbGKFr8zpRIlx7VXBomh5mOI3/hf_20260916_044142_70e6b52a-2bee-402b-b248-4fa732bfcc7d.png
 ind-retail.jpg|https://d8j0ntlcm91z4.cloudfront.net/user_3IPbGKFr8zpRIlx7VXBomh5mOI3/hf_20260916_044142_509ee019-4ecf-4ebe-8139-2a31393137c4.png
 ind-salons.jpg|https://d8j0ntlcm91z4.cloudfront.net/user_3IPbGKFr8zpRIlx7VXBomh5mOI3/hf_20260916_044144_3f168f4b-82e8-45d9-ae7a-49cb56d897c8.png
