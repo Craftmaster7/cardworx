@@ -1,0 +1,21 @@
+name: Fetch site assets
+# Downloads every image/video listed in the manifests into assets/ and commits them,
+# so nothing has to be downloaded by hand. Runs when a manifest changes or on demand.
+on:
+  workflow_dispatch:
+  push:
+    paths: ["assets-manifest.txt", "generated-manifest.txt", "get-assets.sh"]
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash get-assets.sh
+      - run: |
+          git config user.name "cardworx-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add -A assets
+          git diff --cached --quiet || git commit -m "Fetch site assets"
+          git push
