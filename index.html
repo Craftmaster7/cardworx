@@ -397,6 +397,8 @@ footer li a:hover{color:var(--white)}
    Each overlay is positioned with CSS variables so it can be aligned to its photo in seconds. */
 .ovl{display:none;position:absolute;z-index:2;pointer-events:none}
 html[data-gen="1"] .ovl{display:block}
+/* Hero screen overlay retired: the terminal is angled away and moves in the video, so text cannot sit on it convincingly. */
+.ovl-screen{display:none!important}
 .ovl-screen{--x:61%;--y:38%;--w:19%;--rx:6deg;--ry:-18deg;--rz:2deg;left:var(--x);top:var(--y);width:var(--w);transform:perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)) rotateZ(var(--rz));transform-origin:center}
 .ovl-screen .scr{position:relative;aspect-ratio:4/3;padding:8% 9%;border-radius:6%;background:rgba(6,10,18,.55);box-shadow:0 0 0 1px rgba(255,255,255,.06) inset,0 0 26px rgba(56,227,194,.18);mix-blend-mode:screen;overflow:hidden;font-family:var(--body);color:#eef3f5;text-shadow:0 0 6px rgba(200,255,240,.55),0 0 1px #fff;filter:blur(.15px)}
 .ovl-screen .scr span{display:block;font-size:.55em;letter-spacing:.06em;text-transform:uppercase;opacity:.8}
