@@ -228,14 +228,21 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 /* Assembly */
 .asm{padding:0}
 .asm-pin{position:relative;height:100vh;overflow:hidden}
-#asmGl{position:absolute;inset:0;width:100%;height:100%}
-.asm-copy{height:100%;display:grid;align-items:center;grid-template-columns:minmax(0,520px) 1fr;pointer-events:none}
+.asm-visual{position:absolute;top:52%;right:7vw;width:min(36vw,480px);height:min(74vh,700px);transform:translateY(-50%);display:grid;place-items:center;pointer-events:none}
+.asm-glow{position:absolute;inset:10%;border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,var(--accent) 24%,transparent),transparent 72%);filter:blur(28px);opacity:0}
+.asm-photo{position:relative;height:min(72vh,680px);max-height:100%;width:auto;max-width:100%;object-fit:contain;filter:drop-shadow(0 40px 60px rgba(0,0,0,.75));transform-origin:50% 60%;will-change:transform}
+.asm-call{position:absolute;display:flex;align-items:center;gap:.6rem;font-size:.86rem;font-weight:600;color:var(--white);opacity:0;transform:translateX(-10px);transition:opacity .45s,transform .45s;white-space:nowrap}
+.asm-call i{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 6px color-mix(in srgb,var(--accent) 25%,transparent)}
+.asm-call span{padding:.45rem .7rem;border-radius:999px;background:rgba(10,14,23,.85);border:1px solid var(--faint)}
+.asm-call.on{opacity:1;transform:none}
+.asm-call.c1{top:9%;left:-8%}.asm-call.c2{top:22%;right:-6%;flex-direction:row-reverse}.asm-call.c3{top:52%;left:-12%}.asm-call.c4{top:70%;right:-4%;flex-direction:row-reverse}
+.asm-copy{position:relative;z-index:2;height:100%;display:grid;align-items:center;grid-template-columns:minmax(0,480px);pointer-events:none}
 .asm-copy>*{grid-area:1/1}
 .asm-step{opacity:0;transform:translateY(30px);transition:opacity .6s,transform .6s;pointer-events:none}
 .asm-step.on{opacity:1;transform:none;pointer-events:auto}
 .asm-bar{position:absolute;left:4vw;right:4vw;bottom:2.2rem;height:1px;background:var(--faint)}
 .asm-bar i{position:absolute;left:0;top:0;height:100%;width:0;background:var(--accent)}
-@media(max-width:900px){.asm-copy{grid-template-columns:1fr;align-items:end;padding-bottom:5rem}.asm-step .lead{font-size:1rem}#asmGl{opacity:.75}}
+@media(max-width:900px){.asm-visual{top:9%;right:50%;transform:translateX(50%);width:min(70vw,300px);height:38vh}.asm-photo{height:38vh}.asm-call{display:none}.asm-copy{grid-template-columns:1fr;align-items:end;padding-bottom:5rem}.asm-step .lead{font-size:1rem}.asm-step .h2{font-size:clamp(1.9rem,7vw,2.6rem)}}
 /* Terminals */
 .term .head{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:end;margin-bottom:3.5rem}
 .tgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem}
@@ -869,11 +876,21 @@ const s=document.createElement('style');s.textContent='@media(max-width:900px){.
   addEventListener('resize',resize);resize();
   function tick(){const t=clock.getElapsedTime();model.rotation.y=-.9+progress*1.25+Math.sin(t*.7)*.04;model.rotation.x=Math.sin(t*.5)*.03;model.position.y=-.35+Math.sin(t*.9)*.06;place();renderer.render(scene,cam);requestAnimationFrame(tick)}
   tick();
-  const steps=document.querySelectorAll('.asm-step');
+  ScrollTrigger.create({trigger:'#assemble',start:'top top',end:'+=320%',scrub:.6,onUpdate:s=>{progress=s.progress}});
+})();
+
+/* ===== VP550 photo: scroll-driven zoom, tilt and callouts ===== */
+(function(){const v=$('asmVisual');if(!v)return;const photo=v.querySelector('.asm-photo'),glow=v.querySelector('.asm-glow'),calls=[...v.querySelectorAll('.asm-call')],steps=document.querySelectorAll('.asm-step');
   function setStep(p){const i=p<.22?0:p<.5?1:p<.8?2:3;steps.forEach((s,k)=>s.classList.toggle('on',k===i))}
+  gsap.set(photo,{scale:.72,rotate:-14,y:90,transformPerspective:1200,rotateY:-22});gsap.set(glow,{opacity:0});
+  const tl=gsap.timeline({scrollTrigger:{trigger:'#assemble',start:'top top',end:'+=320%',pin:true,scrub:.6,invalidateOnRefresh:true,
+    onUpdate:s=>{const p=s.progress;$('asmProg').style.width=(p*100)+'%';setStep(p);calls.forEach(c=>c.classList.toggle('on',p>=+c.dataset.at&&p<+c.dataset.at+.3))}}});
+  tl.to(photo,{scale:1,rotate:0,y:0,rotateY:0,ease:'power2.out',duration:.35},0)
+    .to(glow,{opacity:1,duration:.2},.05)
+    .to(photo,{scale:1.06,rotateY:14,rotate:2,y:-12,ease:'none',duration:.4},.35)
+    .to(photo,{scale:1,rotateY:-8,rotate:0,y:0,ease:'power1.inOut',duration:.25},.75);
   setStep(0);
-  ScrollTrigger.create({trigger:'#assemble',start:'top top',end:'+=320%',pin:true,scrub:.6,onUpdate:s=>{progress=s.progress;document.getElementById('asmProg').style.width=(s.progress*100)+'%';setStep(s.progress)}});
-  if(reduced){progress=1;setStep(1)}
+  if(reduced){gsap.set(photo,{scale:1,rotate:0,y:0,rotateY:0});glow.style.opacity=1}
 })();
 
 addEventListener('load',()=>ScrollTrigger.refresh());
