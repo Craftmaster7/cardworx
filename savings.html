@@ -700,7 +700,7 @@ gsap.utils.toArray('[data-parallax]').forEach(el=>{
 /* Horizontal services scroll (desktop) */
 ScrollTrigger.matchMedia({
   '(min-width: 901px)':()=>{
-    const track=$('track');const dist=()=>track.scrollWidth-innerWidth;
+    const track=$('track');if(!track)return;const dist=()=>track.scrollWidth-innerWidth;
     const h=gsap.to(track,{x:()=>-dist(),ease:'none',scrollTrigger:{trigger:'#hscroll',pin:true,scrub:1,start:'top top',end:()=>'+='+dist(),invalidateOnRefresh:true,
       onUpdate:s=>{$('prog').style.width=(s.progress*100)+'%'}}});
     gsap.utils.toArray('.panel').forEach(p=>{gsap.fromTo(p,{rotateY:12,scale:.94},{rotateY:0,scale:1,ease:'none',scrollTrigger:{trigger:p,containerAnimation:h,start:'left 90%',end:'left 40%',scrub:true}})});
@@ -732,8 +732,8 @@ function calcM(){const v=+$('vol').value,r=+$('rate').value,y=+$('yrs').value;
   $('volOut').textContent=money(v);$('rateOut').textContent=r.toFixed(1)+'%';$('yrsOut').textContent=y+(y>1?' years':' year');
   const m=v*r/100;$('monthly').textContent=money(m);$('annual').textContent=money(m*12);$('total').textContent=money(m*12*y)}
 function calcA(){const a=+$('acc').value,r=+$('res').value;$('accOut').textContent=a;$('resOut').textContent=money(r);$('m12').textContent=money(a*12*r);$('m36').textContent=money(a*36*r)}
-['vol','rate','yrs'].forEach(i=>$(i).addEventListener('input',()=>{fill($(i));calcM()}));
-['acc','res'].forEach(i=>$(i).addEventListener('input',()=>{fill($(i));calcA()}));
+['vol','rate','yrs'].forEach(i=>{if($(i))$(i).addEventListener('input',()=>{fill($(i));calcM()})});
+['acc','res'].forEach(i=>{if($(i))$(i).addEventListener('input',()=>{fill($(i));calcA()})});
 document.querySelectorAll('input[type=range]').forEach(fill);if($('vol'))calcM();if($('acc'))calcA();
 
 /* Demo submit (remove once a real form action is wired) */
