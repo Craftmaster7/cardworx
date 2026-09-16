@@ -397,6 +397,25 @@ footer li a:hover{color:var(--white)}
 [data-reveal]{opacity:0;transform:translateY(40px)}
 
 
+/* ===== Nav dropdown ===== */
+.nl .dd{position:relative}
+.nl .dd>a i{display:inline-block;width:.45em;height:.45em;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-.15em);margin-left:.35em}
+.nl .menu{z-index:500;position:absolute;top:calc(100% + 14px);left:-1rem;min-width:240px;padding:.6rem;border-radius:14px;background:rgba(10,14,23,.96);border:1px solid var(--faint);box-shadow:0 30px 60px -20px #000;display:grid;gap:.1rem;opacity:0;visibility:hidden;transform:translateY(6px);transition:.25s}
+.nl .menu::before{content:"";position:absolute;left:0;right:0;top:-16px;height:16px}
+.nl .dd:hover .menu,.nl .dd:focus-within .menu{opacity:1;visibility:visible;transform:none}
+.nl .menu a{padding:.6rem .8rem;border-radius:9px;color:var(--white);font-weight:500}
+.nl .menu a:hover{background:rgba(244,241,234,.06)}
+.nl .menu a::after{display:none}
+#nav.open .nl .menu{position:static;opacity:1;visibility:visible;transform:none;background:none;border:0;box-shadow:none;padding:0 0 0 1rem}
+/* ===== Solution pages ===== */
+.sol{padding-bottom:5rem}
+.sol-head{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:end;margin-bottom:3rem}
+.sol-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.sol-grid .glass{padding:1.8rem}
+.sol-grid b{display:block;font-family:var(--display);font-size:1.15rem;margin-bottom:.45rem}
+.sol-grid p{color:var(--dim);font-size:.92rem;margin:0}
+@media(max-width:1000px){.sol-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){.sol-head,.sol-grid{grid-template-columns:1fr}}
 /* ===== Custom pricing ===== */
 .cp{padding:7rem 0}
 .cp-head{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:end;margin-bottom:3rem}
@@ -450,7 +469,7 @@ html[data-gen="1"] .ovl{display:block}
   <div class="wrap">
     <a class="logo" href="#top"><img src="assets/logo-white.png" data-remote="https://static.wixstatic.com/media/235299_bda14376181d43b8aab6f16df0502663~mv2.png" onerror="rf(this)" alt="Cardworx Merchant Services"></a>
     <div class="nl">
-      <a href="#services">Solutions</a><a href="#industries">Industries</a><a href="#dual">Dual Pricing</a><a href="#calc">Savings</a><a href="#terminals">Terminals</a><a href="#financing">Financing</a><a href="#agents">Agents</a><a href="#faq">FAQ</a>
+      <a href="#services">Solutions</a><a href="#industries">Industries</a><a href="#terminals">Terminals</a><a href="#calc">Savings</a><a href="#agents">Agents</a><a href="#faq">FAQ</a>
     </div>
     <div class="nc"><a href="#merchant-form" class="btn btn-teal">Get a quote</a><a href="#agents" class="btn btn-line">Become an agent</a></div>
     <button class="burger" aria-label="Menu" onclick="document.getElementById('nav').classList.toggle('open')"><span></span><span></span><span></span></button>
@@ -495,27 +514,27 @@ html[data-gen="1"] .ovl{display:block}
     <div class="track" id="track">
       <article class="panel">
         <span class="num">01 / 06</span><span class="k">$0</span>
-        <div class="pc"><h3>Dual Pricing &amp; Cash Rewards</h3><p>Show a cash price and a card price, eliminate your processing fees, and earn cash back every month. Legally vetted, compliant signage included.</p><a href="#dual" class="btn btn-line">How it works</a></div>
+        <div class="pc"><h3>Dual Pricing &amp; Cash Rewards</h3><p>Show a cash price and a card price, eliminate your processing fees, and earn cash back every month. Legally vetted, compliant signage included.</p><a href="dual-pricing.html" class="btn btn-line">How it works</a></div>
       </article>
       <article class="panel">
         <img class="float" src="assets/clover-flex.png" onerror="rf(this)" alt="Clover Flex handheld terminal"><span class="num">02 / 06</span><span class="k">EMV</span>
-        <div class="pc"><h3>Credit Card Processing</h3><p>In store, online and mobile acceptance with EMV encryption, PCI compliance and real reporting. Wholesale rates without the middleman.</p><a href="#terminals" class="btn btn-line">See terminals</a></div>
+        <div class="pc"><h3>Credit Card Processing</h3><p>In store, online and mobile acceptance with EMV encryption, PCI compliance and real reporting. Wholesale rates without the middleman.</p><a href="card-processing.html" class="btn btn-line">Learn more</a></div>
       </article>
       <article class="panel">
         <img class="float" src="assets/pax-a920.png" onerror="rf(this)" alt="PAX A920 terminal"><span class="num">03 / 06</span><span class="k">575M+</span>
-        <div class="pc"><h3>Crypto Payments</h3><p>Reach over 575 million crypto consumers with a wallet agnostic solution. Instant conversion to USD, daily bank deposits, zero exposure to volatility.</p><a href="#merchant-form" class="btn btn-line">Accept crypto</a></div>
+        <div class="pc"><h3>Crypto Payments</h3><p>Reach over 575 million crypto consumers with a wallet agnostic solution. Instant conversion to USD, daily bank deposits, zero exposure to volatility.</p><a href="crypto-payments.html" class="btn btn-line">Accept crypto</a></div>
       </article>
       <article class="panel">
         <span class="num">04 / 06</span>
-        <div class="pc"><h3>Customer Financing</h3><p>Sell payment over price. Point of sale financing that helps your customers say yes to larger purchases, across retail, healthcare and home improvement.</p><a href="#financing" class="btn btn-line">Lending platform</a></div>
+        <div class="pc"><h3>Customer Financing</h3><p>Sell payment over price. Point of sale financing that helps your customers say yes to larger purchases, across retail, healthcare and home improvement.</p><a href="customer-financing.html" class="btn btn-line">Lending platform</a></div>
       </article>
       <article class="panel">
         <span class="num">05 / 06</span>
-        <div class="pc"><h3>Business Funding</h3><p>Equipment financing, expansion capital, debt financing and more. Fast decisioning, deep industry knowledge and competitive rates.</p><a href="#financing" class="btn btn-line">Get funded</a></div>
+        <div class="pc"><h3>Business Funding</h3><p>Equipment financing, expansion capital, debt financing and more. Fast decisioning, deep industry knowledge and competitive rates.</p><a href="business-funding.html" class="btn btn-line">Get funded</a></div>
       </article>
       <article class="panel">
         <span class="num">06 / 06</span>
-        <div class="pc"><h3>High Risk &amp; Cannabis</h3><p>Every business deserves a fair chance to succeed. Specialized processing for high risk categories and dispensaries other providers turn away.</p><a href="#merchant-form" class="btn btn-line">Talk to us</a></div>
+        <div class="pc"><h3>High Risk &amp; Cannabis</h3><p>Every business deserves a fair chance to succeed. Specialized processing for high risk categories and dispensaries other providers turn away.</p><a href="high-risk.html" class="btn btn-line">Talk to us</a></div>
       </article>
     </div>
     <div class="progress"><i id="prog"></i></div>
