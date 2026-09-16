@@ -69,9 +69,7 @@ section{position:relative;padding:8rem 0;z-index:2}
 
 
 /* ===== Video hero: fade in once the clip is actually playing ===== */
-(function(){const v=document.getElementById('heroVid');if(!v)return;
-  v.addEventListener('canplay',()=>{v.classList.add('on')});v.addEventListener('error',()=>v.remove(),true);
-  const s=v.querySelector('source');if(s)s.addEventListener('error',()=>v.remove());})();
+(function(){const v=document.querySelector('.hero-bg');if(!v)return;v.play&&v.play().catch(()=>{});})();
 
 /* ===== 3D TERMINAL that assembles on scroll ===== */
 (function(){
@@ -172,8 +170,11 @@ nav.open .burger span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
 
 /* Hero */
 .hero{min-height:100vh;display:grid;align-items:center;padding:9rem 0 6rem}
-.hero .wrap{display:grid;grid-template-columns:minmax(0,.95fr) minmax(min(48vw,680px),1.05fr);gap:3rem;align-items:center}
-.hero h1{font-size:clamp(2.8rem,5.4vw,5.6rem);font-weight:700;letter-spacing:-.035em}
+.hero{position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:.55;filter:saturate(.85)}
+.hero-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,7,12,.92) 0%,rgba(5,7,12,.75) 45%,rgba(5,7,12,.35) 100%),linear-gradient(180deg,rgba(5,7,12,.2),rgba(5,7,12,.95))}
+.hero .wrap{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,760px);align-items:center}
+.hero h1{font-size:clamp(2.8rem,5.6vw,5.8rem);font-weight:700;letter-spacing:-.035em}
 .hero h1 .ln{display:block;overflow:hidden;padding:.06em 0 .14em;margin:-.06em 0 -.14em}
 .hero h1 .ln span{display:block;transform:translateY(110%)}
 .hero h1 .gold{background:linear-gradient(90deg,var(--gold2),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -467,10 +468,6 @@ html[data-gen="1"] .ovl{display:block}
         <div><b>Next day</b>funding</div>
         <div><b>Free</b>terminal</div>
       </div>
-    </div>
-    <div class="stage product" id="stage">
-      <img class="hero-product" src="assets/clover-station.png" onerror="rf(this)" alt="Clover Station Duo terminal">
-      <div class="hero-cap"><b>Free terminal. $0 fees.</b><span>Programmed for Dual Pricing and shipped to you.</span></div>
     </div>
   </div>
 </header>
@@ -892,8 +889,7 @@ addEventListener('load',()=>{
       .to('.hero .lead',{opacity:1,y:0,duration:1},'-=.7')
       .to('.hero .ctas',{opacity:1,duration:.8},'-=.6')
       .to('.hero .badges',{opacity:1,duration:.8},'-=.5')
-      .from('.hero-product',{opacity:0,y:60,scale:.94,duration:1.6,ease:'expo.out'},'-=1.6')
-      .from('.hero-cap',{opacity:0,y:10,duration:.8},'-=.8');
+      .from('.hero-bg',{opacity:0,scale:1.06,duration:2,ease:'expo.out'},'-=1.8');
   },1500);
 });
 
