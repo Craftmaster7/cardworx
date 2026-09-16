@@ -11,10 +11,12 @@ tail_start=rest.index('<footer>')
 footer_and_scripts=rest[tail_start:]
 body=rest[chrome_end:tail_start]
 parts=dict(re.findall(r'<!-- ([A-Z0-9 ]+?) -->\n(.*?)(?=\n<!-- [A-Z0-9 ]+? -->|\Z)',body,re.S))
-NAV={'Solutions':'index.html#services','Industries':'index.html#industries','Dual Pricing':'dual-pricing.html','Savings':'savings.html','Terminals':'terminals.html','Financing':'financing.html','Agents':'agents.html','FAQ':'index.html#faq'}
+NAV={'Solutions':'index.html#services','Industries':'industries.html','Dual Pricing':'dual-pricing.html','Savings':'savings.html','Terminals':'terminals.html','Financing':'financing.html','Agents':'agents.html','FAQ':'faq.html'}
 PAGES={
  'index.html':dict(title='Cardworx Merchant Services | $0 Processing Fees, Cash Rewards, Wholesale Pricing',desc='Eliminate credit card processing fees with compliant Dual Pricing, earn monthly cash rewards, and get a free terminal. Wholesale merchant services in Boca Raton, FL.',
-   sections=['HERO','SERVICES','INDUSTRIES','CALCULATOR','STATS','FAQ','CONTACT']),
+   sections=['HERO','SERVICES','CALCULATOR','STATS','CONTACT']),
+ 'industries.html':dict(title='Industries We Serve | Restaurants, Retail, Salons, Auto & More | Cardworx',desc='Cardworx serves any business that takes cards: restaurants, retail, salons, auto repair, jewelry, coffee, professional services, cannabis and high risk.',sections=['INDUSTRIES','CONTACT']),
+ 'faq.html':dict(title='FAQ | Dual Pricing, Fees, Terminals & Funding | Cardworx',desc='Answers to common questions about Dual Pricing, $0 processing fees, cash rewards, free terminals, next day funding and the Cardworx agent program.',sections=['FAQ','CONTACT']),
  'terminals.html':dict(title='Terminals & POS | Clover, Valor, PAX, Dejavoo | Cardworx',desc='Free terminals with Dual Pricing. Clover, Valor PayTech, PAX, Dejavoo, Ingenico, SwipeSimple and virtual gateways at wholesale pricing.',
    sections=['TERMINALS','3D TERMINAL ASSEMBLY','CONTACT']),
  'savings.html':dict(title='Savings Calculator & Custom Pricing | Cardworx',desc='See what you give away in processing fees every year, and how Cardworx prices around the cards your business actually takes.',
@@ -78,7 +80,7 @@ for fn,cfg in PAGES.items():
     def fix(mo):
         tgt=mo.group(1)
         if tgt in ids: return mo.group(0)
-        route={'services':'index.html#services','industries':'index.html#industries','dual':'dual-pricing.html','calc':'savings.html','terminals':'terminals.html','assemble':'terminals.html','financing':'financing.html','agents':'agents.html','faq':'index.html#faq','top':'index.html','merchant-form':'index.html#merchant-form','agent-form':'agents.html#agent-form'}
+        route={'services':'index.html#services','industries':'industries.html','dual':'dual-pricing.html','calc':'savings.html','terminals':'terminals.html','assemble':'terminals.html','financing':'financing.html','agents':'agents.html','faq':'faq.html','top':'index.html','merchant-form':'index.html#merchant-form','agent-form':'agents.html#agent-form'}
         return f'href="{route.get(tgt,"index.html")}"'
     body=re.sub(r'href="#([a-z0-9-]+)"',fix,body)
     foot=re.sub(r'href="#([a-z0-9-]+)"',fix,footer_and_scripts.split('<script',1)[0])+'<script'+footer_and_scripts.split('<script',1)[1]

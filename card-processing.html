@@ -22,8 +22,11 @@
 </script>
 <script>function rf(i){if(i.closest&&i.closest(".tc")&&(!i.dataset.remote||i.src.indexOf(i.dataset.remote)>=0)){i.closest(".tc").classList.add("noimg");i.remove();return}if(!i.dataset.local)i.dataset.local=i.getAttribute("src").split("/").pop();if(i.dataset.remote&&i.src.indexOf(i.dataset.remote)<0){i.src=i.dataset.remote}else if(!i.dataset.ph){i.dataset.ph=1;i.src="data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300"><rect width="100%" height="100%" rx="24" fill="#141c30"/><text x="50%" y="46%" fill="#8b93a7" font-family="sans-serif" font-size="16" text-anchor="middle">Add photo</text><text x="50%" y="58%" fill="#5b6478" font-family="sans-serif" font-size="12" text-anchor="middle">'+i.dataset.local+'</text></svg>')}}
 /* Solutions dropdown: click to open/close, close on outside click or Escape */
-document.addEventListener('DOMContentLoaded',()=>{const dd=document.querySelector('.nl .dd');if(!dd)return;const t=dd.querySelector(':scope>a');
+document.addEventListener('DOMContentLoaded',()=>{const dd=document.querySelector('.nl .dd');if(!dd)return;const t=dd.querySelector(':scope>a'),menu=dd.querySelector('.menu');let timer;
+  const place=()=>{const w=t.closest('.wrap');if(!w||getComputedStyle(menu).position!=='absolute')return;menu.style.left=(t.getBoundingClientRect().left-w.getBoundingClientRect().left-16)+'px'};place();addEventListener('resize',place);
+  const open=()=>{clearTimeout(timer);place();dd.classList.add('open')},close=()=>{timer=setTimeout(()=>dd.classList.remove('open'),180)};
   t.addEventListener('click',e=>{e.preventDefault();dd.classList.toggle('open')});
+  if(matchMedia('(hover:hover)').matches){[t,menu].forEach(el=>{el.addEventListener('mouseenter',open);el.addEventListener('mouseleave',close)})}
   document.addEventListener('click',e=>{if(!dd.contains(e.target))dd.classList.remove('open')});
   document.addEventListener('keydown',e=>{if(e.key==='Escape')dd.classList.remove('open')});
 });</script>
@@ -80,9 +83,9 @@ section{position:relative;padding:8rem 0;z-index:2}
 /* Nav */
 nav{position:fixed;top:0;left:0;right:0;z-index:400;transition:background .4s,border-color .4s;border-bottom:1px solid transparent}
 nav.scrolled{background:rgba(5,7,12,.7);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-color:var(--faint)}
-nav .wrap{display:flex;align-items:center;justify-content:space-between;height:84px;gap:2rem}
+nav .wrap{position:relative;display:flex;align-items:center;justify-content:space-between;height:84px;gap:2rem}
 nav .logo img{height:44px;width:auto}
-.nl{display:flex;align-items:center;align-self:stretch;gap:2rem;font-size:.86rem;font-weight:600;color:var(--dim)}
+.nl{display:flex;align-items:center;gap:2rem;font-size:.86rem;font-weight:600;color:var(--dim)}
 .nl a{position:relative;transition:color .3s}
 .nl a::after{content:"";position:absolute;left:0;bottom:-6px;height:1px;width:0;background:var(--accent);transition:width .3s}
 .nl a:hover{color:var(--white)}.nl a:hover::after{width:100%}
@@ -96,9 +99,19 @@ nav.open .burger span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
 @media(max-width:1020px){
   .nl,.nc{display:none}.burger{display:block}
   nav.open{background:var(--bg)}
-  nav.open .nl,nav.open .nc{display:flex;flex-direction:column;position:absolute;left:0;right:0;padding:1.4rem 4vw;background:var(--bg);border-bottom:1px solid var(--faint)}
-  nav.open .nl{top:84px;gap:1.2rem;font-size:1.1rem}
-  nav.open .nc{top:calc(84px + 330px)}
+  #nav.open{background:#05070c!important;max-height:100vh;overflow:auto;border-bottom:1px solid var(--faint)}
+  nav.open .logo{order:0}nav.open .burger{order:1}nav.open .nl{order:2}nav.open .nc{order:3}
+  nav.open .wrap{flex-wrap:wrap;height:auto;min-height:84px;row-gap:0}
+  nav.open .logo{height:84px;display:flex;align-items:center}
+  nav.open .burger{margin-left:auto}
+  nav.open .nl,nav.open .nc{display:flex;flex-direction:column;flex-basis:100%;position:static;align-items:stretch;padding:.4rem 0 1.4rem;background:none;border:0;gap:0}
+  nav.open .nl a{padding:.85rem 0;font-size:1.1rem;color:var(--white);border-bottom:1px solid var(--faint)}
+  nav.open .nl .dd{position:static;display:block}
+  nav.open .nl .dd>a i{float:right;margin-top:.5em;margin-right:.4em}
+  nav.open .nl .menu{position:static;display:grid;opacity:1;visibility:visible;transform:none;background:none;border:0;box-shadow:none;padding:0 0 .4rem 1rem;min-width:0}
+  nav.open .nl .menu a{padding:.7rem 0;font-size:1rem;color:var(--dim);border-bottom:0}
+  nav.open .nc{gap:.7rem;padding-bottom:1.6rem}
+  nav.open .nc .btn{justify-content:center}
 }
 
 /* Hero */
@@ -331,12 +344,12 @@ footer li a:hover{color:var(--white)}
 
 
 /* ===== Nav dropdown ===== */
-.nl .dd{position:relative;display:flex;align-items:center;align-self:stretch}
-.nl .dd>a{padding:1.6rem 0;cursor:pointer}
+.nl .dd{position:static}
+.nl .dd>a{cursor:pointer}
 .nl .dd>a i{display:inline-block;width:.45em;height:.45em;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-.15em);margin-left:.35em;transition:transform .25s}
 .nl .dd.open>a i{transform:rotate(225deg) translateY(.1em)}
-.nl .menu{z-index:500;position:absolute;top:100%;left:-1rem;min-width:250px;padding:.6rem;border-radius:14px;background:#0b1019;border:1px solid var(--faint);box-shadow:0 30px 60px -20px #000;display:grid;gap:.1rem;opacity:0;visibility:hidden;transform:translateY(6px);transition:opacity .2s,transform .2s,visibility 0s .2s}
-.nl .dd:hover .menu,.nl .dd.open .menu,.nl .dd:focus-within .menu{opacity:1;visibility:visible;transform:none;transition:opacity .2s,transform .2s}
+.nl .menu{z-index:500;position:absolute;top:100%;left:0;min-width:250px;padding:.6rem;border-radius:14px;background:#0b1019;border:1px solid var(--faint);box-shadow:0 30px 60px -20px #000;display:grid;gap:.1rem;opacity:0;visibility:hidden;transform:translateY(6px);transition:opacity .2s,transform .2s,visibility 0s .2s}
+.nl .dd.open .menu{opacity:1;visibility:visible;transform:none;transition:opacity .2s,transform .2s}
 .nl .menu a{padding:.65rem .85rem;border-radius:9px;color:var(--white);font-weight:500;display:block}
 .nl .menu a:hover{background:rgba(244,241,234,.06)}
 .nl .menu a::after{display:none}
@@ -403,7 +416,7 @@ html[data-gen="1"] .ovl{display:block}
   <div class="wrap">
     <a class="logo" href="index.html"><img src="assets/logo-white.png" data-remote="https://static.wixstatic.com/media/235299_bda14376181d43b8aab6f16df0502663~mv2.png" onerror="rf(this)" alt="Cardworx Merchant Services"></a>
     <div class="nl">
-      <div class="dd"><a href="dual-pricing.html">Solutions <i></i></a><div class="menu"><a href="dual-pricing.html">Dual Pricing & Cash Rewards</a><a href="card-processing.html">Credit Card Processing</a><a href="crypto-payments.html">Crypto Payments</a><a href="customer-financing.html">Customer Financing</a><a href="business-funding.html">Business Funding</a><a href="high-risk.html">High Risk & Cannabis</a></div></div><a href="index.html#industries">Industries</a><a href="terminals.html">Terminals</a><a href="savings.html">Savings</a><a href="agents.html">Agents</a><a href="index.html#faq">FAQ</a>
+      <div class="dd"><a href="dual-pricing.html">Solutions <i></i></a><div class="menu"><a href="dual-pricing.html">Dual Pricing & Cash Rewards</a><a href="card-processing.html">Credit Card Processing</a><a href="crypto-payments.html">Crypto Payments</a><a href="customer-financing.html">Customer Financing</a><a href="business-funding.html">Business Funding</a><a href="high-risk.html">High Risk & Cannabis</a></div></div><a href="industries.html">Industries</a><a href="terminals.html">Terminals</a><a href="savings.html">Savings</a><a href="agents.html">Agents</a><a href="faq.html">FAQ</a>
     </div>
     <div class="nc"><a href="#merchant-form" class="btn btn-teal">Get a quote</a><a href="agents.html" class="btn btn-line">Become an agent</a></div>
     <button class="burger" aria-label="Menu" onclick="document.getElementById('nav').classList.toggle('open')"><span></span><span></span><span></span></button>
@@ -483,8 +496,8 @@ html[data-gen="1"] .ovl{display:block}
         <p style="margin-top:1.2rem">160 Camino Real #963<br>Boca Raton, FL 33432<br><a href="tel:+18883846450" style="color:var(--white)">(888) 384-6450</a></p>
       </div>
       <div><h4>Merchants</h4><ul><li><a href="dual-pricing.html">Dual Pricing</a></li><li><a href="savings.html">Savings calculator</a></li><li><a href="#terminals">Terminals</a></li><li><a href="#merchant-form">Get a quote</a></li></ul></div>
-      <div><h4>Solutions</h4><ul><li><a href="index.html#services">Payment processing</a></li><li><a href="index.html#services">Crypto payments</a></li><li><a href="financing.html">Customer financing</a></li><li><a href="financing.html">Business funding</a></li><li><a href="index.html#services">High risk &amp; cannabis</a></li></ul></div>
-      <div><h4>Partners</h4><ul><li><a href="agents.html">Agent program</a></li><li><a href="agents.html">Referral partners</a></li><li><a href="#agent-form">Apply</a></li><li><a href="index.html#faq">FAQ</a></li></ul></div>
+      <div><h4>Solutions</h4><ul><li><a href="card-processing.html">Payment processing</a></li><li><a href="crypto-payments.html">Crypto payments</a></li><li><a href="financing.html">Customer financing</a></li><li><a href="financing.html">Business funding</a></li><li><a href="high-risk.html">High risk &amp; cannabis</a></li></ul></div>
+      <div><h4>Partners</h4><ul><li><a href="agents.html">Agent program</a></li><li><a href="agents.html">Referral partners</a></li><li><a href="#agent-form">Apply</a></li><li><a href="faq.html">FAQ</a></li></ul></div>
     </div>
     <div class="fb">
       <span>&copy; 2026 Cardworx Merchant Services. All rights reserved. *Dual Pricing program terms apply.</span>
