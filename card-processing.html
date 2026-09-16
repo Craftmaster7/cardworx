@@ -325,12 +325,13 @@ footer li a:hover{color:var(--white)}
 
 
 /* ===== Nav dropdown ===== */
-.nl .dd{position:relative}
-.nl .dd>a i{display:inline-block;width:.45em;height:.45em;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-.15em);margin-left:.35em}
-.nl .menu{z-index:500;position:absolute;top:calc(100% + 14px);left:-1rem;min-width:240px;padding:.6rem;border-radius:14px;background:#0b1019;border:1px solid var(--faint);box-shadow:0 30px 60px -20px #000;display:grid;gap:.1rem;opacity:0;visibility:hidden;transform:translateY(6px);transition:.25s}
-.nl .menu::before{content:"";position:absolute;left:0;right:0;top:-16px;height:16px}
-.nl .dd:hover .menu,.nl .dd:focus-within .menu{opacity:1;visibility:visible;transform:none}
-.nl .menu a{padding:.6rem .8rem;border-radius:9px;color:var(--white);font-weight:500}
+.nl .dd{position:relative;display:flex;align-items:center;align-self:stretch}
+.nl .dd>a{padding:1.6rem 0;cursor:pointer}
+.nl .dd>a i{display:inline-block;width:.45em;height:.45em;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-.15em);margin-left:.35em;transition:transform .25s}
+.nl .dd.open>a i{transform:rotate(225deg) translateY(.1em)}
+.nl .menu{z-index:500;position:absolute;top:100%;left:-1rem;min-width:250px;padding:.6rem;border-radius:14px;background:#0b1019;border:1px solid var(--faint);box-shadow:0 30px 60px -20px #000;display:grid;gap:.1rem;opacity:0;visibility:hidden;transform:translateY(6px);transition:opacity .2s,transform .2s,visibility 0s .2s}
+.nl .dd:hover .menu,.nl .dd.open .menu,.nl .dd:focus-within .menu{opacity:1;visibility:visible;transform:none;transition:opacity .2s,transform .2s}
+.nl .menu a{padding:.65rem .85rem;border-radius:9px;color:var(--white);font-weight:500;display:block}
 .nl .menu a:hover{background:rgba(244,241,234,.06)}
 .nl .menu a::after{display:none}
 #nav.open .nl .menu{position:static;opacity:1;visibility:visible;transform:none;background:none;border:0;box-shadow:none;padding:0 0 0 1rem}
@@ -643,6 +644,13 @@ addEventListener('load',()=>{
 
 /* Hero video: nudge autoplay on browsers that need it */
 (function(){const v=document.querySelector('.hero-bg');if(!v)return;v.play&&v.play().catch(()=>{});})();
+
+/* Solutions dropdown: click to open/close, close on outside click or Escape */
+(function(){const dd=document.querySelector('.nl .dd');if(!dd)return;const t=dd.querySelector(':scope>a');
+  t.addEventListener('click',e=>{e.preventDefault();dd.classList.toggle('open')});
+  document.addEventListener('click',e=>{if(!dd.contains(e.target))dd.classList.remove('open')});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')dd.classList.remove('open')});
+})();
 
 /* Nav */
 addEventListener('scroll',()=>$('nav').classList.toggle('scrolled',scrollY>40),{passive:true});
