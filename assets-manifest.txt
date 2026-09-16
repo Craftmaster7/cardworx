@@ -1,0 +1,10 @@
+logo-white.png|https://static.wixstatic.com/media/235299_bda14376181d43b8aab6f16df0502663~mv2.png
+logo-dark.png|https://static.wixstatic.com/media/235299_794b49366a05429f8786dadf9bff2c65~mv2.png
+zero-fees-badge.png|https://static.wixstatic.com/media/235299_b11c868dcd6b4b3780a8f733d4e51693~mv2.png
+clover-station.png|https://static.wixstatic.com/media/235299_9191afc7f69341719c035244dc6d47f9~mv2.png
+clover-mini.png|https://static.wixstatic.com/media/235299_e1b2cfe57cee40cea8670f9478a95d05~mv2.png
+clover-flex.png|https://static.wixstatic.com/media/235299_801fdf8ea0214826b8145761ef4fa155~mv2.png
+pax-a920.png|https://static.wixstatic.com/media/235299_0720937620b34de4a1b32cb0b8e0dbf7~mv2.png
+valor-vl100.webp|https://static.wixstatic.com/media/235299_6a5ac86ba8b0482287112aa51b2cbe9f~mv2.webp
+dejavoo-qd.webp|https://static.wixstatic.com/media/235299_3bd8cf98ec5241caabdd70379a927922~mv2.webp
+move-3500.webp|https://static.wixstatic.com/media/235299_4ff0f534fa3d4cb0bf5c66cf5ddff170~mv2.webp
