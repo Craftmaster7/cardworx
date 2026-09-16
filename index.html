@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-gen="1">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -182,7 +182,12 @@ nav.open .burger span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
 .hero .badges{display:flex;gap:2rem;margin-top:3rem;opacity:0;flex-wrap:wrap}
 .hero .badges div{font-size:.8rem;color:var(--dim)}
 .hero .badges b{display:block;font-family:var(--display);font-size:1.5rem;color:var(--white);letter-spacing:-.02em}
-.stage{position:relative;perspective:1600px;width:100%;aspect-ratio:16/10;min-height:300px}
+.stage{position:relative;width:100%;aspect-ratio:1/1;display:grid;place-items:center}
+.stage::before{content:"";position:absolute;inset:8%;border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,var(--accent) 22%,transparent),transparent 70%);filter:blur(30px)}
+.hero-product{position:relative;width:88%;max-height:560px;object-fit:contain;filter:drop-shadow(0 50px 70px rgba(0,0,0,.75))}
+.hero-cap{position:absolute;left:50%;bottom:-.5rem;transform:translateX(-50%);text-align:center;white-space:nowrap}
+.hero-cap b{display:block;font-family:var(--display);font-size:1.15rem;letter-spacing:-.02em}
+.hero-cap span{font-size:.85rem;color:var(--dim)}
 .card3d{position:absolute;inset:0;transform-style:preserve-3d;transform:rotateY(-7deg) rotateX(3deg);border-radius:22px;overflow:hidden;box-shadow:0 60px 120px -40px rgba(0,0,0,.9),0 0 0 1px rgba(244,241,234,.08) inset;opacity:0}
 .card3d img,.card3d video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;transform:scale(1.03)}
 .card3d video{z-index:1;opacity:0;transition:opacity 1s}
@@ -209,7 +214,7 @@ nav.open .burger span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
 .hs .head .wrap{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:end}
 .track-wrap{position:relative}
 .track{display:flex;gap:1.5rem;padding:0 4vw 6rem;width:max-content}
-.panel{width:min(78vw,640px);flex:none;border-radius:var(--r);overflow:hidden;position:relative;aspect-ratio:1/1.05;background:var(--bg3);transform-style:preserve-3d}
+.panel{background:linear-gradient(160deg,#121a2e,#080b12);box-shadow:0 0 0 1px rgba(244,241,234,.06) inset;width:min(78vw,640px);flex:none;border-radius:var(--r);overflow:hidden;position:relative;aspect-ratio:1/1.05;background:var(--bg3);transform-style:preserve-3d}
 .panel img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.8,.2,1);filter:saturate(.9)}
 .panel:hover img{transform:scale(1.06)}
 .panel::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,7,12,.1),rgba(5,7,12,.92) 70%);z-index:1}
@@ -218,6 +223,8 @@ nav.open .burger span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
 .panel h3{font-size:clamp(1.6rem,2.6vw,2.3rem);margin-bottom:.7rem}
 .panel p{color:var(--dim);max-width:30rem;font-size:.98rem}
 .panel .pc .btn{margin-top:1.2rem}
+.panel .float+.num+.k{top:auto;bottom:calc(100% - 1.6rem - 2.6rem);right:auto;left:1.8rem;font-size:1.4rem;opacity:.7}
+.panel .float{position:absolute;right:6%;top:10%;width:46%;max-height:52%;object-fit:contain;z-index:2;filter:drop-shadow(0 40px 50px rgba(0,0,0,.7))}
 .panel .k{position:absolute;top:1.6rem;right:1.8rem;z-index:2;font-family:var(--display);font-size:2.2rem;font-weight:800;color:var(--accent)}
 .panel.dark{background:linear-gradient(160deg,#141c30,#0a0e17)}
 .panel.dark .grid{position:absolute;inset:0;background-image:linear-gradient(var(--faint) 1px,transparent 1px),linear-gradient(90deg,var(--faint) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(circle at 70% 30%,#000,transparent 70%)}
@@ -228,6 +235,12 @@ nav.open .burger span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
 
 /* Dual pricing */
 .dp .wrap{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.dp .two{padding:2.6rem}
+.dp .two-row{display:flex;justify-content:space-between;align-items:baseline;padding:1.4rem 0;border-bottom:1px solid var(--faint)}
+.dp .two-row small{font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.dp .two-row b{font-family:var(--display);font-size:clamp(2.6rem,5vw,4.2rem);letter-spacing:-.03em;line-height:1}
+.dp .two-row.card b{color:var(--accent)}
+.dp .two p{margin-top:1.6rem;color:var(--dim);font-size:.95rem}
 .dp .pic{position:relative;perspective:1200px}
 .dp .pic img{border-radius:var(--r);width:100%;aspect-ratio:4/5;object-fit:cover}
 .ag .pic .pic2{position:absolute;left:-8%;bottom:-8%;width:46%;aspect-ratio:4/3;object-fit:cover;border-radius:16px;box-shadow:0 40px 80px -30px #000;transform:translateZ(60px) rotate(-3deg)}
@@ -295,10 +308,12 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 /* Financing */
 .fin .head{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:end;margin-bottom:3rem}
 .fgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
-.fi{position:relative;aspect-ratio:3/4;border-radius:var(--r);overflow:hidden}
+.fi{position:relative;aspect-ratio:3/4;border-radius:var(--r);overflow:hidden;background:linear-gradient(160deg,rgba(217,180,90,.10),rgba(5,7,12,0));box-shadow:0 0 0 1px rgba(244,241,234,.07) inset;color:inherit;text-decoration:none}
+.fi::before{content:"0" counter(fi);counter-increment:fi;position:absolute;top:1.4rem;left:1.4rem;font-family:var(--display);font-size:2.2rem;color:var(--accent);opacity:.9}
+.fgrid{counter-reset:fi}
 .fi img{width:100%;height:100%;object-fit:cover;transition:transform 1.4s cubic-bezier(.2,.8,.2,1);filter:saturate(.8)}
 .fi:hover img{transform:scale(1.08)}
-.fi::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(5,7,12,.95))}
+
 .fi div{position:absolute;left:1.4rem;right:1.4rem;bottom:1.4rem;z-index:2}
 .fi b{font-family:var(--display);font-size:1.2rem;display:block}
 .fi span{font-size:.82rem;color:var(--dim)}
@@ -313,6 +328,10 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 /* Agents */
 .ag{overflow:hidden}
 .ag .wrap{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:center}
+.ag-stack{display:grid;gap:1rem}
+.ag-stack .glass{padding:1.8rem 2rem}
+.ag-stack b{font-family:var(--display);font-size:1.8rem;color:var(--gold2);display:block;line-height:1;margin-bottom:.4rem}
+.ag-stack span{font-size:.92rem;color:var(--dim)}
 .ag .pic{position:relative;perspective:1200px}
 .ag .pic img{border-radius:var(--r);width:100%;aspect-ratio:4/5;object-fit:cover}
 .ag .pic .glass{position:absolute;left:-10%;bottom:8%;padding:1.4rem 1.6rem;transform:translateZ(80px)}
@@ -377,21 +396,12 @@ footer li a:hover{color:var(--white)}
 /* ===== Industries ===== */
 .ind-sec{padding:7rem 0}
 .ind-head{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:end;margin-bottom:3rem}
-.ind-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem}
-.ind{position:relative;display:block;aspect-ratio:4/3;border-radius:var(--r);overflow:hidden;background:#0c1220;color:inherit;text-decoration:none;transform-style:preserve-3d;box-shadow:0 0 0 1px rgba(244,241,234,.07) inset}
-.ind img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.04);transition:transform 1.2s cubic-bezier(.2,.7,.2,1),filter .8s;filter:saturate(.9)}
-.ind:hover img{transform:scale(1.1);filter:saturate(1.05)}
-.ind::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(5,7,12,.92) 0%,rgba(5,7,12,.35) 45%,transparent 75%)}
-.ind .ic{position:absolute;left:1.4rem;right:1.4rem;bottom:1.3rem;z-index:1}
-.ind h3{font-family:var(--display);font-size:1.25rem;letter-spacing:-.01em;margin:0 0 .25rem}
-.ind p{margin:0;color:var(--dim);font-size:.88rem;line-height:1.45}
-.ind-all{aspect-ratio:auto;display:flex;align-items:flex-end;background:linear-gradient(160deg,rgba(56,227,194,.10),rgba(217,180,90,.06))}
-.ind-all::after{display:none}
-.ind-all .ic{position:static;padding:1.6rem}
-.ind-all h3{font-size:1.5rem;margin:.6rem 0 .5rem}
-.ind-all .btn{margin-top:1.1rem}
-@media(max-width:900px){.ind-head{grid-template-columns:1fr}.ind-grid{grid-template-columns:1fr 1fr;gap:.8rem}.ind-all{grid-column:1/-1;aspect-ratio:auto}}
-@media(max-width:520px){.ind-grid{grid-template-columns:1fr}}
+.ind-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;column-gap:4rem}
+.ind-list li{font-family:var(--display);font-size:clamp(1.4rem,2.4vw,2.2rem);letter-spacing:-.02em;padding:1.1rem 0;border-bottom:1px solid var(--faint)}
+.ind-list li.all{grid-column:1/-1;border:0;padding-top:2rem;font-family:var(--body);font-size:1.05rem;color:var(--dim)}
+.ind-list li.all a{color:var(--accent);text-decoration:none;border-bottom:1px solid currentColor}
+@media(max-width:700px){.ind-list{grid-template-columns:1fr}}
+@media(max-width:900px){.ind-head{grid-template-columns:1fr}}
 /* ===== Code text overlays (crisp, editable text on top of blank AI screens/signs) =====
    Hidden until the generated images are in place: set <html data-gen="1"> to turn them on.
    Each overlay is positioned with CSS variables so it can be aligned to its photo in seconds. */
@@ -453,25 +463,13 @@ html[data-gen="1"] .ovl{display:block}
         <div><b>Free</b>terminal</div>
       </div>
     </div>
-    <div class="stage" id="stage">
-      <div class="card3d" id="heroCard">
-        <!-- Screen text overlay: real HTML text placed over the terminal display in the generated hero shot.
-             Tune position/angle with the CSS vars on .ovl-screen once hero.jpg is in. Shown only when <html data-gen="1">. -->
-        <div class="ovl ovl-screen" aria-hidden="true"><div class="scr"><span class="l1">Cash price</span><b class="v1">$42.00</b><span class="l2">Card price</span><b class="v2">$43.68</b><i class="sweep"></i></div></div>
-        <video id="heroVid" autoplay muted loop playsinline poster="assets/hero.jpg"><source src="assets/hero.mp4" type="video/mp4"></video>
-        <img class="poster" src="assets/hero.jpg" onerror="rf(this)" alt="Merchant accepting a card payment">
-        <div class="cap"><b>Your terminal, your profit center.</b><span>Dual Pricing, cash rewards and next day funding in one account.</span></div>
-      </div>
-      <img class="badge0" src="assets/zero-fees-badge.png" data-remote="https://static.wixstatic.com/media/235299_b11c868dcd6b4b3780a8f733d4e51693~mv2.png" onerror="rf(this)" alt="Zero processing fees">
-      <div class="chip glass"><b>+$1,160</b><small>average monthly fees<br>eliminated at $40k volume</small></div>
+    <div class="stage product" id="stage">
+      <img class="hero-product" src="assets/clover-station.png" onerror="rf(this)" alt="Clover Station Duo terminal">
+      <div class="hero-cap"><b>Free terminal. $0 fees.</b><span>Programmed for Dual Pricing and shipped to you.</span></div>
     </div>
   </div>
 </header>
 
-<div class="ticker"><div class="row">
-  <span>$0 processing fees</span><span>Monthly cash rewards</span><span>Free terminal</span><span>Next day funding</span><span>Crypto payments</span><span>Customer financing</span><span>Business funding</span><span>High risk approved</span><span>24/7 English &amp; Spanish support</span>
-  <span>$0 processing fees</span><span>Monthly cash rewards</span><span>Free terminal</span><span>Next day funding</span><span>Crypto payments</span><span>Customer financing</span><span>Business funding</span><span>High risk approved</span><span>24/7 English &amp; Spanish support</span>
-</div></div>
 
 <!-- SERVICES horizontal -->
 <section class="hs" id="services" data-theme="teal">
@@ -482,32 +480,26 @@ html[data-gen="1"] .ovl{display:block}
   <div class="track-wrap" id="hscroll">
     <div class="track" id="track">
       <article class="panel">
-        <img src="assets/svc-dual-pricing.jpg" onerror="rf(this)" alt="Dual Pricing sign at a boutique counter">
         <span class="num">01 / 06</span><span class="k">$0</span>
         <div class="pc"><h3>Dual Pricing &amp; Cash Rewards</h3><p>Show a cash price and a card price, eliminate your processing fees, and earn cash back every month. Legally vetted, compliant signage included.</p><a href="#dual" class="btn btn-line">How it works</a></div>
       </article>
       <article class="panel">
-        <img src="assets/svc-card-processing.jpg" onerror="rf(this)" alt="Salon owner running a chip card">
-        <span class="num">02 / 06</span><span class="k">EMV</span>
+        <img class="float" src="assets/clover-flex.png" onerror="rf(this)" alt="Clover Flex handheld terminal"><span class="num">02 / 06</span><span class="k">EMV</span>
         <div class="pc"><h3>Credit Card Processing</h3><p>In store, online and mobile acceptance with EMV encryption, PCI compliance and real reporting. Wholesale rates without the middleman.</p><a href="#terminals" class="btn btn-line">See terminals</a></div>
       </article>
       <article class="panel">
-        <img src="assets/svc-crypto.jpg" onerror="rf(this)" alt="Paying with crypto at a coffee bar">
-        <span class="num">03 / 06</span><span class="k">575M+</span>
+        <img class="float" src="assets/pax-a920.png" onerror="rf(this)" alt="PAX A920 terminal"><span class="num">03 / 06</span><span class="k">575M+</span>
         <div class="pc"><h3>Crypto Payments</h3><p>Reach over 575 million crypto consumers with a wallet agnostic solution. Instant conversion to USD, daily bank deposits, zero exposure to volatility.</p><a href="#merchant-form" class="btn btn-line">Accept crypto</a></div>
       </article>
       <article class="panel">
-        <img src="assets/svc-customer-financing.jpg" onerror="rf(this)" alt="Couple approved for financing in a furniture showroom">
         <span class="num">04 / 06</span>
         <div class="pc"><h3>Customer Financing</h3><p>Sell payment over price. Point of sale financing that helps your customers say yes to larger purchases, across retail, healthcare and home improvement.</p><a href="#financing" class="btn btn-line">Lending platform</a></div>
       </article>
       <article class="panel">
-        <img src="assets/svc-business-funding.jpg" onerror="rf(this)" alt="Auto shop owner in a newly expanded bay">
         <span class="num">05 / 06</span>
         <div class="pc"><h3>Business Funding</h3><p>Equipment financing, expansion capital, debt financing and more. Fast decisioning, deep industry knowledge and competitive rates.</p><a href="#financing" class="btn btn-line">Get funded</a></div>
       </article>
       <article class="panel">
-        <img src="assets/svc-high-risk.jpg" onerror="rf(this)" alt="Licensed dispensary checkout">
         <span class="num">06 / 06</span>
         <div class="pc"><h3>High Risk &amp; Cannabis</h3><p>Every business deserves a fair chance to succeed. Specialized processing for high risk categories and dispensaries other providers turn away.</p><a href="#merchant-form" class="btn btn-line">Talk to us</a></div>
       </article>
@@ -523,56 +515,22 @@ html[data-gen="1"] .ovl{display:block}
       <div data-reveal><span class="eb">Who we serve</span><h2 class="h2">Built for any business <em>that takes cards.</em></h2></div>
       <p class="lead" data-reveal>If you accept credit cards, we can eliminate your processing fees. These are the businesses we help every day.</p>
     </div>
-    <div class="ind-grid">
-      <a href="#merchant-form" class="ind" data-tilt data-reveal>
-        <img src="assets/ind-restaurants.jpg" onerror="rf(this)" alt="Restaurants & diners" loading="lazy">
-        <div class="ic"><h3>Restaurants & diners</h3><p>Full service, quick service, bars and cafés.</p></div>
-      </a>
-      <a href="#merchant-form" class="ind" data-tilt data-reveal>
-        <img src="assets/ind-retail.jpg" onerror="rf(this)" alt="Retail & boutiques" loading="lazy">
-        <div class="ic"><h3>Retail & boutiques</h3><p>Mom and pop shops, specialty stores, gift and apparel.</p></div>
-      </a>
-      <a href="#merchant-form" class="ind" data-tilt data-reveal>
-        <img src="assets/ind-salons.jpg" onerror="rf(this)" alt="Salons & spas" loading="lazy">
-        <div class="ic"><h3>Salons & spas</h3><p>Hair, nails, barbers, med spas and wellness.</p></div>
-      </a>
-      <a href="#merchant-form" class="ind" data-tilt data-reveal>
-        <img src="assets/ind-auto.jpg" onerror="rf(this)" alt="Auto repair & tire shops" loading="lazy">
-        <div class="ic"><h3>Auto repair & tire shops</h3><p>Mechanics, body shops, detailers and parts counters.</p></div>
-      </a>
-      <a href="#merchant-form" class="ind" data-tilt data-reveal>
-        <img src="assets/ind-jewelry.jpg" onerror="rf(this)" alt="Jewelry & luxury goods" loading="lazy">
-        <div class="ic"><h3>Jewelry & luxury goods</h3><p>High ticket sales with next day funding.</p></div>
-      </a>
-      <a href="#merchant-form" class="ind" data-tilt data-reveal>
-        <img src="assets/ind-coffee.jpg" onerror="rf(this)" alt="Coffee & quick service" loading="lazy">
-        <div class="ic"><h3>Coffee & quick service</h3><p>High volume counters where seconds matter.</p></div>
-      </a>
-      <a href="#merchant-form" class="ind" data-tilt data-reveal>
-        <img src="assets/ind-professional.jpg" onerror="rf(this)" alt="Professional services" loading="lazy">
-        <div class="ic"><h3>Professional services</h3><p>Dentists, vets, attorneys, accountants and clinics.</p></div>
-      </a>
-      <a href="#merchant-form" class="ind" data-tilt data-reveal>
-        <img src="assets/ind-cannabis.jpg" onerror="rf(this)" alt="Cannabis & high risk" loading="lazy">
-        <div class="ic"><h3>Cannabis & high risk</h3><p>Dispensaries and categories other providers decline.</p></div>
-      </a>
-      <a href="#merchant-form" class="ind ind-all glass" data-reveal>
-        <div class="ic"><span class="eb">Don't see yours?</span><h3>If you take cards, we can help.</h3><p>Every industry, every ticket size. Tell us what you do and we'll show you the numbers.</p><span class="btn btn-teal">Get my numbers</span></div>
-      </a>
-    </div>
+    <ul class="ind-list" data-reveal>
+      <li>Restaurants &amp; diners</li><li>Retail &amp; boutiques</li><li>Salons &amp; spas</li><li>Auto repair &amp; tire shops</li>
+      <li>Jewelry &amp; luxury goods</li><li>Coffee &amp; quick service</li><li>Professional services</li><li>Cannabis &amp; high risk</li>
+      <li class="all">And any other business that takes cards. <a href="#merchant-form">Get your numbers</a></li>
+    </ul>
   </div>
 </section>
 
 <!-- DUAL PRICING -->
 <section class="dp" id="dual" data-theme="teal">
   <div class="wrap">
-    <div class="pic" data-reveal>
-      <img src="assets/dual-pricing-register.jpg" onerror="rf(this)" alt="Customer choosing between cash and card at the register" data-parallax="-40">
-      <div class="signwrap" data-parallax="40">
-        <img class="sign" src="assets/dual-pricing-sign.png" onerror="rf(this)" alt="Dual pricing signage">
-        <!-- Sign text overlay: printed onto the blank acrylic in code so wording stays exact. Shown only when <html data-gen="1">. -->
-        <div class="ovl ovl-sign" aria-hidden="true"><div class="prt"><b>We offer two prices</b><div class="pr"><span>Cash price</span><span>Card price</span></div><small>A 3.99% service fee applies to card payments.</small></div></div>
-      </div>
+    <div class="two glass" data-reveal>
+      <span class="eb">What your customer sees</span>
+      <div class="two-row"><small>Cash price</small><b>$42.00</b></div>
+      <div class="two-row card"><small>Card price</small><b>$43.68</b></div>
+      <p>Same product, two prices, posted clearly. The customer chooses. Your processing fee is $0 either way.</p>
     </div>
     <div>
       <span class="eb" data-reveal>Dual Pricing</span>
@@ -658,10 +616,10 @@ html[data-gen="1"] .ovl{display:block}
       <p class="lead" data-reveal>Fast decisioning, deep industry knowledge and competitive rates on both sides of the counter.</p>
     </div>
     <div class="fgrid">
-      <a class="fi" href="#merchant-form" data-reveal><img src="assets/fin-equipment.jpg" onerror="rf(this)" alt="Equipment financing"><div><b>Equipment Financing</b><span>Machines, vehicles, kitchens</span></div></a>
-      <a class="fi" href="#merchant-form" data-reveal><img src="assets/fin-expansion.jpg" onerror="rf(this)" alt="Expansion"><div><b>Expansion</b><span>Second location, build outs</span></div></a>
-      <a class="fi" href="#merchant-form" data-reveal><img src="assets/fin-working-capital.jpg" onerror="rf(this)" alt="Working capital"><div><b>Working Capital</b><span>Inventory, payroll, cash flow</span></div></a>
-      <a class="fi" href="#merchant-form" data-reveal><img src="assets/fin-debt.jpg" onerror="rf(this)" alt="Debt financing"><div><b>Debt Financing</b><span>Consolidate and restructure</span></div></a>
+      <a class="fi" href="#merchant-form" data-reveal><div><b>Equipment Financing</b><span>Machines, vehicles, kitchens</span></div></a>
+      <a class="fi" href="#merchant-form" data-reveal><div><b>Expansion</b><span>Second location, build outs</span></div></a>
+      <a class="fi" href="#merchant-form" data-reveal><div><b>Working Capital</b><span>Inventory, payroll, cash flow</span></div></a>
+      <a class="fi" href="#merchant-form" data-reveal><div><b>Debt Financing</b><span>Consolidate and restructure</span></div></a>
     </div>
     <div class="split">
       <div class="glass" data-reveal><span class="eb">Business funding</span><h3>Finance your growing business.</h3><p>Custom finance solutions with fast decisioning and much more than what's shown above.</p><ul><li>Equipment, expansion and working capital</li><li>Decisions in days, not months</li><li>Structured around your card volume</li></ul><a href="#merchant-form" class="btn btn-gold">Apply for funding</a></div>
@@ -705,10 +663,10 @@ html[data-gen="1"] .ovl{display:block}
         <a href="#agent-form" class="btn btn-gold" style="margin-top:1.4rem">Apply to the program</a>
       </div>
     </div>
-    <div class="pic" data-reveal>
-      <img src="assets/partners.jpg" onerror="rf(this)" alt="Cardworx agent meeting a shop owner" data-parallax="-50">
-      <img class="pic2" src="assets/agent-lifestyle.jpg" onerror="rf(this)" alt="Agent reviewing residuals from a cafe" data-parallax="40">
-      <div class="glass" data-parallax="30"><b>Win-win</b><span>Fast onboarding. Residuals without the workload.</span></div>
+    <div class="ag-stack" data-reveal>
+      <div class="glass"><b>Fast</b><span>Onboarding measured in days, not weeks.</span></div>
+      <div class="glass"><b>Residuals</b><span>Paid on every account you bring, for as long as it processes.</span></div>
+      <div class="glass"><b>Zero workload</b><span>We handle setup, support and equipment. You handle relationships.</span></div>
     </div>
   </div>
 </section>
@@ -803,8 +761,9 @@ const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 /* Phones, tablets, reduced-motion and low-core devices skip the WebGL layer entirely:
    no shader compile, no per-frame draw, no battery cost. The CSS glow + grain stay. */
 const lowPower=reduced||matchMedia('(max-width:900px)').matches||matchMedia('(hover:none) and (pointer:coarse)').matches||(navigator.hardwareConcurrency||8)<=4||(navigator.deviceMemory&&navigator.deviceMemory<=4);
-if(lowPower){document.documentElement.classList.add('low-power');$('gl').remove()}
-if(!lowPower)(function(){
+const cleanMode=true; /* Apple-clean direction: no floating cards/coins. Set false to bring the 3D background back. */
+if(lowPower||cleanMode){document.documentElement.classList.add('low-power');$('gl').remove()}
+if(!lowPower&&!cleanMode)(function(){
   const canvas=$('gl');
   const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true,powerPreference:'high-performance'});
   renderer.setPixelRatio(Math.min(devicePixelRatio,1.6));
@@ -928,18 +887,16 @@ addEventListener('load',()=>{
       .to('.hero .lead',{opacity:1,y:0,duration:1},'-=.7')
       .to('.hero .ctas',{opacity:1,duration:.8},'-=.6')
       .to('.hero .badges',{opacity:1,duration:.8},'-=.5')
-      .to('#heroCard',{opacity:1,rotateY:-14,rotateX:6,duration:1.4,ease:'expo.out'},'-=1.6')
-      .to('.badge0',{opacity:1,y:-10,duration:1,ease:'back.out(1.6)'},'-=.8')
-      .to('.chip',{opacity:1,duration:.8},'-=.5');
+      .from('.hero-product',{opacity:0,y:60,scale:.94,duration:1.6,ease:'expo.out'},'-=1.6')
+      .from('.hero-cap',{opacity:0,y:10,duration:.8},'-=.8');
   },1500);
 });
 
 /* Hero card mouse tilt */
-(function(){const st=$('stage'),c=$('heroCard');if(!st||reduced)return;
+(function(){const st=$('stage'),c=document.querySelector('.hero-product');if(!st||!c||reduced)return;
   st.addEventListener('pointermove',e=>{const r=st.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
-    gsap.to(c,{rotateY:-14+x*18,rotateX:6-y*14,duration:.8,ease:'power3.out'});
-    gsap.to('.badge0',{x:x*-30,y:y*-30,duration:.8});gsap.to('.chip',{x:x*20,y:y*20,duration:.8})});
-  st.addEventListener('pointerleave',()=>gsap.to(c,{rotateY:-14,rotateX:6,duration:1.2,ease:'power3.out'}));
+    gsap.to(c,{rotateY:x*10,rotateX:-y*8,x:x*14,y:y*10,transformPerspective:1200,duration:.9,ease:'power3.out'})});
+  st.addEventListener('pointerleave',()=>gsap.to(c,{rotateY:0,rotateX:0,x:0,y:0,duration:1.2,ease:'power3.out'}));
 })();
 
 /* Nav */
