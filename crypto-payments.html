@@ -13,7 +13,7 @@
 <meta property="og:url" content="https://www.cardworxusa.com/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#05070c">
-<link rel="icon" href="assets/logo-white.png">
+<link rel="icon" href="assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded',()=>{const dd=document.querySelecto
 :root{
   --bg:#05070c;--bg2:#0a0e17;--bg3:#101627;
   --white:#f4f1ea;--dim:rgba(244,241,234,.62);--faint:rgba(244,241,234,.1);
-  --gold:#d9b45a;--gold2:#f3d98a;--teal:#38e3c2;--teal2:#0fb59a;--violet:#9a7bff;
+  --gold:#d9b45a;--gold2:#f3d98a;--teal:#f26522;--teal2:#c94e12;--violet:#9a7bff;
   --accent:var(--teal);
   --display:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',sans-serif;--body:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',sans-serif;
   --r:22px;
@@ -57,7 +57,7 @@ section{position:relative;padding:8rem 0;z-index:2}
 .btn::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.35),transparent 70%);transform:translateX(-120%);transition:transform .7s;z-index:-1}
 .btn:hover{transform:translateY(-3px)}
 .btn:hover::after{transform:translateX(120%)}
-.btn-teal{background:var(--teal);color:#05221c;box-shadow:0 14px 40px -14px rgba(56,227,194,.7)}
+.btn-teal{background:var(--teal);color:#fff;box-shadow:0 14px 40px -14px rgba(242,101,34,.7)}
 .btn-gold{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#2a1e05;box-shadow:0 14px 40px -14px rgba(217,180,90,.7)}
 .btn-line{border-color:rgba(244,241,234,.25);color:var(--white);background:rgba(244,241,234,.04);backdrop-filter:blur(8px)}
 .btn svg{width:18px;height:18px}
@@ -84,7 +84,7 @@ section{position:relative;padding:8rem 0;z-index:2}
 nav{position:fixed;top:0;left:0;right:0;z-index:400;transition:background .4s,border-color .4s;border-bottom:1px solid transparent}
 nav.scrolled{background:rgba(5,7,12,.7);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-color:var(--faint)}
 nav .wrap{position:relative;display:flex;align-items:center;justify-content:space-between;height:84px;gap:2rem}
-nav .logo img{height:44px;width:auto}
+nav .logo img{height:40px;width:auto}
 .nl{display:flex;align-items:center;gap:2rem;font-size:.86rem;font-weight:600;color:var(--dim)}
 .nl a{position:relative;transition:color .3s}
 .nl a::after{content:"";position:absolute;left:0;bottom:-6px;height:1px;width:0;background:var(--accent);transition:width .3s}
@@ -402,16 +402,16 @@ html[data-gen="1"] .ovl{display:block}
 /* Hero screen overlay retired: the terminal is angled away and moves in the video, so text cannot sit on it convincingly. */
 .ovl-screen{display:none!important}
 .ovl-screen{--x:61%;--y:38%;--w:19%;--rx:6deg;--ry:-18deg;--rz:2deg;left:var(--x);top:var(--y);width:var(--w);transform:perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)) rotateZ(var(--rz));transform-origin:center}
-.ovl-screen .scr{position:relative;aspect-ratio:4/3;padding:8% 9%;border-radius:6%;background:rgba(6,10,18,.55);box-shadow:0 0 0 1px rgba(255,255,255,.06) inset,0 0 26px rgba(56,227,194,.18);mix-blend-mode:screen;overflow:hidden;font-family:var(--body);color:#eef3f5;text-shadow:0 0 6px rgba(200,255,240,.55),0 0 1px #fff;filter:blur(.15px)}
+.ovl-screen .scr{position:relative;aspect-ratio:4/3;padding:8% 9%;border-radius:6%;background:rgba(6,10,18,.55);box-shadow:0 0 0 1px rgba(255,255,255,.06) inset,0 0 26px rgba(242,101,34,.18);mix-blend-mode:screen;overflow:hidden;font-family:var(--body);color:#eef3f5;text-shadow:0 0 6px rgba(200,255,240,.55),0 0 1px #fff;filter:blur(.15px)}
 .ovl-screen .scr span{display:block;font-size:.55em;letter-spacing:.06em;text-transform:uppercase;opacity:.8}
 .ovl-screen .scr b{display:block;font-family:var(--display);font-size:1.15em;line-height:1.15;margin:.05em 0 .35em}
-.ovl-screen .scr .v1{color:#5ff2d3}
+.ovl-screen .scr .v1{color:#ff8a4d}
 .ovl-screen .sweep{position:absolute;inset:-40% -60%;background:linear-gradient(115deg,transparent 45%,rgba(255,255,255,.10) 50%,transparent 55%);animation:sweep 7s ease-in-out infinite}
 @keyframes sweep{0%,60%{transform:translateX(-45%)}100%{transform:translateX(45%)}}
 .ovl-sign{--x:25%;--y:19%;--w:54%;--rz:0deg;left:var(--x);top:var(--y);width:var(--w);transform:rotate(var(--rz));font-size:.72rem}
 .ovl-sign .prt{font-family:var(--body);color:#f4f1ea;mix-blend-mode:screen;text-align:center;text-shadow:0 1px 0 rgba(0,0,0,.35)}
 .ovl-sign .prt b{display:block;font-family:var(--display);font-size:1em;line-height:1.05;letter-spacing:0;text-transform:uppercase}
-.ovl-sign .pr{display:flex;justify-content:space-between;gap:.6em;margin:.7em 0 .45em;font-size:.62em;letter-spacing:.08em;text-transform:uppercase;color:#5ff2d3}
+.ovl-sign .pr{display:flex;justify-content:space-between;gap:.6em;margin:.7em 0 .45em;font-size:.62em;letter-spacing:.08em;text-transform:uppercase;color:#ff8a4d}
 .ovl-sign small{display:block;font-size:.46em;line-height:1.3;opacity:.75}
 @media(max-width:900px){.ovl-screen{font-size:.7rem}.ovl-sign{font-size:.55rem}}
 @media(prefers-reduced-motion:reduce){[data-reveal]{opacity:1;transform:none}.ticker .row{animation:none}}
@@ -420,12 +420,12 @@ html[data-gen="1"] .ovl{display:block}
 </head>
 <body>
 
-<div id="pre"><img src="assets/logo-white.png" data-remote="https://static.wixstatic.com/media/235299_bda14376181d43b8aab6f16df0502663~mv2.png" onerror="rf(this)" alt="Cardworx Merchant Services"><div class="bar"></div></div>
+<div id="pre"><img src="assets/logo-white.png" onerror="rf(this)" alt="Cardworx Merchant Services"><div class="bar"></div></div>
 <canvas id="gl"></canvas><div id="glow"></div><div id="grain"></div>
 
 <nav id="nav">
   <div class="wrap">
-    <a class="logo" href="index.html"><img src="assets/logo-white.png" data-remote="https://static.wixstatic.com/media/235299_bda14376181d43b8aab6f16df0502663~mv2.png" onerror="rf(this)" alt="Cardworx Merchant Services"></a>
+    <a class="logo" href="index.html"><img src="assets/logo-white.png" onerror="rf(this)" alt="Cardworx Merchant Services"></a>
     <div class="nl">
       <div class="dd"><a href="dual-pricing.html">Solutions <i></i></a><div class="menu"><a href="dual-pricing.html">Dual Pricing & Cash Rewards</a><a href="card-processing.html">Credit Card Processing</a><a href="crypto-payments.html">Crypto Payments</a><a href="customer-financing.html">Customer Financing</a><a href="business-funding.html">Business Funding</a><a href="high-risk.html">High Risk & Cannabis</a></div></div><a href="industries.html">Industries</a><a href="terminals.html">Terminals</a><a href="savings.html">Savings</a><a href="agents.html">Agents</a><a href="faq.html">FAQ</a>
     </div>
@@ -479,7 +479,7 @@ html[data-gen="1"] .ovl{display:block}
   <div class="wrap">
     <div class="fg">
       <div>
-        <img src="assets/logo-white.png" data-remote="https://static.wixstatic.com/media/235299_bda14376181d43b8aab6f16df0502663~mv2.png" onerror="rf(this)" alt="Cardworx Merchant Services" style="height:56px;width:auto;margin-bottom:1.2rem">
+        <img src="assets/logo-white.png" onerror="rf(this)" alt="Cardworx Merchant Services" style="height:56px;width:auto;margin-bottom:1.2rem">
         <p style="max-width:22rem;font-style:italic">"We are in the business of helping you grow yours."</p>
         <p style="margin-top:1.2rem">160 Camino Real #963<br>Boca Raton, FL 33432<br><a href="tel:+18883846450" style="color:var(--white)">(888) 384-6450</a></p>
       </div>
@@ -554,7 +554,7 @@ if(!lowPower&&!cleanMode)(function(){
     g.font='500 22px Figtree, sans-serif';g.fillStyle='rgba(233,228,214,.7)';g.fillText('VALID THRU',104,490);g.font='600 30px "Courier New", monospace';g.fillStyle='#e9e4d6';g.fillText('09/31',104,522);
     g.font='600 30px Syne, sans-serif';g.fillStyle='#efe9da';g.fillText('CARDWORX MEMBER',104,590);
     /* network mark, neutral */
-    g.globalAlpha=.9;g.fillStyle='#38e3c2';g.beginPath();g.arc(860,560,42,0,6.28);g.fill();g.fillStyle='#d9b45a';g.beginPath();g.arc(915,560,42,0,6.28);g.fill();g.globalAlpha=1;
+    g.globalAlpha=.9;g.fillStyle='#f26522';g.beginPath();g.arc(860,560,42,0,6.28);g.fill();g.fillStyle='#d9b45a';g.beginPath();g.arc(915,560,42,0,6.28);g.fill();g.globalAlpha=1;
     g.font='700 34px Syne, sans-serif';g.fillStyle='#f4f1ea';g.textAlign='right';g.fillText('cardworx',930,90);
     const t=new THREE.CanvasTexture(c);t.encoding=THREE.sRGBEncoding;t.anisotropy=8;return t;
   }
@@ -677,7 +677,7 @@ ScrollTrigger.matchMedia({
 });
 
 /* Section theme switching: CSS accent + 3D scene light */
-const themes={teal:'#38e3c2',gold:'#d9b45a',violet:'#9a7bff'};
+const themes={teal:'#f26522',gold:'#d9b45a',violet:'#9a7bff'};
 gsap.utils.toArray('[data-theme]').forEach(sec=>{
   const set=()=>{const c=themes[sec.dataset.theme];document.documentElement.style.setProperty('--accent',c);window.setSceneAccent&&setSceneAccent(c)};
   ScrollTrigger.create({trigger:sec,start:'top 55%',end:'bottom 55%',onEnter:set,onEnterBack:set});

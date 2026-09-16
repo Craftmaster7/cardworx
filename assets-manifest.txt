@@ -1,5 +1,3 @@
-logo-white.png|https://static.wixstatic.com/media/235299_bda14376181d43b8aab6f16df0502663~mv2.png
-logo-dark.png|https://static.wixstatic.com/media/235299_794b49366a05429f8786dadf9bff2c65~mv2.png
 zero-fees-badge.png|https://static.wixstatic.com/media/235299_b11c868dcd6b4b3780a8f733d4e51693~mv2.png
 clover-station.png|https://static.wixstatic.com/media/235299_9191afc7f69341719c035244dc6d47f9~mv2.png
 clover-mini.png|https://static.wixstatic.com/media/235299_e1b2cfe57cee40cea8670f9478a95d05~mv2.png
