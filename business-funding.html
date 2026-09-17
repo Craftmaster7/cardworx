@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded',()=>{const dd=document.querySelecto
 :root{
   --bg:#05070c;--bg2:#0a0e17;--bg3:#101627;
   --white:#f4f1ea;--dim:rgba(244,241,234,.62);--faint:rgba(244,241,234,.1);
-  --gold:#d9b45a;--gold2:#f3d98a;--teal:#f14b1c;--teal2:#c94e12;--violet:#9a7bff;
+  --gold:#1fa39a;--gold2:#62d9cf;--teal:#f14b1c;--teal2:#c94e12;--violet:#9a7bff;
   --accent:var(--teal);
   --display:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',sans-serif;--body:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',sans-serif;
   --r:22px;
@@ -58,7 +58,7 @@ section{position:relative;padding:8rem 0;z-index:2}
 .btn:hover{transform:translateY(-3px)}
 .btn:hover::after{transform:translateX(120%)}
 .btn-teal{background:var(--teal);color:#fff;box-shadow:0 14px 40px -14px rgba(241,75,28,.7)}
-.btn-gold{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#2a1e05;box-shadow:0 14px 40px -14px rgba(217,180,90,.7)}
+.btn-gold{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#052a27;box-shadow:0 14px 40px -14px rgba(31,163,154,.7)}
 .btn-line{border-color:rgba(244,241,234,.25);color:var(--white);background:rgba(244,241,234,.04);backdrop-filter:blur(8px)}
 .btn svg{width:18px;height:18px}
 .glass{background:linear-gradient(160deg,rgba(244,241,234,.07),rgba(244,241,234,.02));border:1px solid rgba(244,241,234,.1);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-radius:var(--r)}
@@ -269,7 +269,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 /* Financing */
 .fin .head{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:end;margin-bottom:3rem}
 .fgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
-.fi{position:relative;min-height:230px;aspect-ratio:3/4;border-radius:var(--r);overflow:hidden;background:linear-gradient(160deg,rgba(217,180,90,.10),rgba(5,7,12,0));box-shadow:0 0 0 1px rgba(244,241,234,.07) inset;color:inherit;text-decoration:none}
+.fi{position:relative;min-height:230px;aspect-ratio:3/4;border-radius:var(--r);overflow:hidden;background:linear-gradient(160deg,rgba(31,163,154,.10),rgba(5,7,12,0));box-shadow:0 0 0 1px rgba(244,241,234,.07) inset;color:inherit;text-decoration:none}
 .fi::before{content:"0" counter(fi);counter-increment:fi;position:absolute;top:1.4rem;left:1.4rem;font-family:var(--display);font-size:2.2rem;color:var(--accent);opacity:.9}
 .fgrid{counter-reset:fi}
 .fi img{width:100%;height:100%;object-fit:cover;transition:transform 1.4s cubic-bezier(.2,.8,.2,1);filter:saturate(.8)}
@@ -573,7 +573,7 @@ if(!lowPower&&!cleanMode)(function(){
     g.font='500 22px Figtree, sans-serif';g.fillStyle='rgba(233,228,214,.7)';g.fillText('VALID THRU',104,490);g.font='600 30px "Courier New", monospace';g.fillStyle='#e9e4d6';g.fillText('09/31',104,522);
     g.font='600 30px Syne, sans-serif';g.fillStyle='#efe9da';g.fillText('CARDWORX MEMBER',104,590);
     /* network mark, neutral */
-    g.globalAlpha=.9;g.fillStyle='#f14b1c';g.beginPath();g.arc(860,560,42,0,6.28);g.fill();g.fillStyle='#d9b45a';g.beginPath();g.arc(915,560,42,0,6.28);g.fill();g.globalAlpha=1;
+    g.globalAlpha=.9;g.fillStyle='#f14b1c';g.beginPath();g.arc(860,560,42,0,6.28);g.fill();g.fillStyle='#1fa39a';g.beginPath();g.arc(915,560,42,0,6.28);g.fill();g.globalAlpha=1;
     g.font='700 34px Syne, sans-serif';g.fillStyle='#f4f1ea';g.textAlign='right';g.fillText('cardworx',930,90);
     const t=new THREE.CanvasTexture(c);t.encoding=THREE.sRGBEncoding;t.anisotropy=8;return t;
   }
@@ -696,7 +696,7 @@ ScrollTrigger.matchMedia({
 });
 
 /* Section theme switching: CSS accent + 3D scene light */
-const themes={teal:'#f14b1c',gold:'#d9b45a',violet:'#9a7bff'};
+const themes={teal:'#f14b1c',gold:'#1fa39a',violet:'#9a7bff'};
 gsap.utils.toArray('[data-theme]').forEach(sec=>{
   const set=()=>{const c=themes[sec.dataset.theme];document.documentElement.style.setProperty('--accent',c);window.setSceneAccent&&setSceneAccent(c)};
   ScrollTrigger.create({trigger:sec,start:'top 55%',end:'bottom 55%',onEnter:set,onEnterBack:set});
