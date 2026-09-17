@@ -25,3 +25,5 @@ coin-eth.png|https://d8j0ntlcm91z4.cloudfront.net/user_3IPbGKFr8zpRIlx7VXBomh5mO
 hero-1080.mp4|https://video.wixstatic.com/video/235299_a72578a3e6274c4db9cd5dfb470f2649/1080p/mp4/file.mp4
 hero-720.mp4|https://video.wixstatic.com/video/235299_a72578a3e6274c4db9cd5dfb470f2649/720p/mp4/file.mp4
 hero-poster.jpg|https://static.wixstatic.com/media/235299_a72578a3e6274c4db9cd5dfb470f2649f000.jpg
+review-dp-1.png|https://d8j0ntlcm91z4.cloudfront.net/user_3IPbGKFr8zpRIlx7VXBomh5mOI3/hf_20260917_014938_98f147e3-3c9c-44e3-8e24-973185c12a30.png
+review-dp-2.png|https://d8j0ntlcm91z4.cloudfront.net/user_3IPbGKFr8zpRIlx7VXBomh5mOI3/hf_20260917_014940_dfc9eaff-508c-487d-a8ec-8232563080e1.png
