@@ -207,15 +207,22 @@ async function boot(){
   if(DEMO){return enterApp()}
   if(!sb)return;
   const hash=new URLSearchParams(location.hash.slice(1));
-  sb.auth.onAuthStateChange(async(ev,session)=>{
+  sb.auth.onAuthStateChange((ev,session)=>{
     if(ev==='PASSWORD_RECOVERY'||(session&&(hash.get('type')==='invite'||hash.get('type')==='recovery'))){show('setpass');return}
-    if(session){await loadProfile();enterApp()} else show('login');
+    if(ev==='SIGNED_OUT')show('login');
+    if(ev==='INITIAL_SESSION'&&session)setTimeout(()=>enter(),0);
   });
   try{const {data:{session}}=await sb.auth.getSession();if(!session)show('login')}
   catch(e){show('login');$('loginMsg').innerHTML='<div class="msg err">'+esc(e.message)+'</div>'}
 }
+let entering=false;
+async function enter(){if(entering)return;entering=true;try{await loadProfile();await enterApp()}catch(e){show('login');$('loginMsg').innerHTML='<div class="msg err">Could not load your profile: '+esc(e.message)+'</div>'}finally{entering=false}}
 function show(id){['login','setpass','app'].forEach(i=>$(i).classList.toggle('hidden',i!==id))}
-async function signIn(){const {error}=await sb.auth.signInWithPassword({email:$('lEmail').value.trim(),password:$('lPass').value});$('loginMsg').innerHTML=error?`<div class="msg err">${esc(error.message)}</div>`:''}
+async function signIn(){const b=document.querySelector('#login button.primary');b.disabled=true;b.textContent='Signing in…';$('loginMsg').innerHTML='';
+  try{const {error}=await sb.auth.signInWithPassword({email:$('lEmail').value.trim(),password:$('lPass').value});
+    if(error){$('loginMsg').innerHTML=`<div class="msg err">${esc(error.message)}</div>`}else await enter()}
+  catch(e){$('loginMsg').innerHTML=`<div class="msg err">${esc(e.message)}</div>`}
+  finally{b.disabled=false;b.textContent='Sign in'}}
 async function forgot(){const email=$('lEmail').value.trim();if(!email)return $('loginMsg').innerHTML='<div class="msg err">Enter your email first.</div>';const {error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:location.href.split('#')[0]});$('loginMsg').innerHTML=error?`<div class="msg err">${esc(error.message)}</div>`:'<div class="msg ok">Check your email for a reset link.</div>'}
 async function setPassword(){const p=$('sPass').value;if(p.length<8)return $('setMsg').innerHTML='<div class="msg err">Use at least 8 characters.</div>';
   const {error}=await sb.auth.updateUser({password:p,data:{full_name:$('sName').value.trim()}});if(error)return $('setMsg').innerHTML=`<div class="msg err">${esc(error.message)}</div>`;
@@ -252,7 +259,7 @@ async function saveProspect(){const row={agent_id:me.id,business_name:$('pBiz').
 async function deleteProspect(){if(!editing||!confirm('Delete this prospect?'))return;if(DEMO)prospects=prospects.filter(p=>p!==editing);else{const {error}=await sb.from('prospects').delete().eq('id',editing.id);if(error)return alert(error.message)}closeModal();await refresh()}
 
 /* ---------- Statement submission ---------- */
-const drop=$('drop');['dragenter','dragover'].forEach(e=>drop.addEventListener(e,ev=>{ev.preventDefault();drop.classList.add('over')}));['dragleave','drop'].forEach(e=>drop.addEventListener(e,ev=>{ev.preventDefault();drop.classList.remove('over')}));drop.addEventListener('drop',ev=>pickFiles(ev.dataTransfer.files));
+const drop=$('drop');if(drop)['dragenter','dragover'].forEach(e=>drop.addEventListener(e,ev=>{ev.preventDefault();drop.classList.add('over')}));if(drop)['dragleave','drop'].forEach(e=>drop.addEventListener(e,ev=>{ev.preventDefault();drop.classList.remove('over')}));drop.addEventListener('drop',ev=>pickFiles(ev.dataTransfer.files));
 function pickFiles(list){files=[...files,...Array.from(list)].slice(0,10);$('fileList').innerHTML=files.map((f,i)=>`<li>${esc(f.name)} (${Math.round(f.size/1024)} KB) <a href="#" onclick="files.splice(${i},1);pickFiles([]);return false">remove</a></li>`).join('')}
 async function submitStatement(){const biz=$('fBiz').value.trim();if(!biz)return $('subMsg').innerHTML='<div class="msg err">Business name is required.</div>';if(!files.length)return $('subMsg').innerHTML='<div class="msg err">Attach at least one statement.</div>';
   $('subBtn').disabled=true;$('subMsg').innerHTML='<div class="msg ok">Uploading...</div>';
