@@ -42,10 +42,18 @@ jobs:
           PGPASSWORD="$SUPABASE_DB_PASSWORD" psql "postgresql://postgres.$REF@aws-0-$host.pooler.supabase.com:5432/postgres?sslmode=require" -c "select 1" >/dev/null && echo "password ok"
           echo "DBURL=postgresql://postgres.$REF:$(python3 -c "import urllib.parse,os;print(urllib.parse.quote(os.environ['SUPABASE_DB_PASSWORD'],safe=''))")@aws-0-$host.pooler.supabase.com:5432/postgres" >> "$GITHUB_ENV"
       - name: Push database schema
-        run: supabase db push --include-all --db-url "$DBURL"
+        run: |
+          set -o pipefail
+          for f in supabase/migrations/*.sql; do
+            echo "== $f"
+            psql "$DBURL" -v ON_ERROR_STOP=1 -f "$f" 2>&1 | tee -a /tmp/db.log || { echo "::error title=Schema push failed::$(grep -i error /tmp/db.log | tail -3 | tr '\n' ' ')"; exit 1; }
+          done
       - name: Set function secrets
-        run: supabase secrets set --project-ref "$REF" RESEND_API_KEY="${{ secrets.RESEND_API_KEY }}" NOTIFY_TO="${{ secrets.NOTIFY_TO }}" PORTAL_URL="https://craftmaster7.github.io/cardworx/portal.html"
+        run: |
+          set -o pipefail; supabase secrets set --project-ref "$REF" RESEND_API_KEY="${{ secrets.RESEND_API_KEY }}" NOTIFY_TO="${{ secrets.NOTIFY_TO }}" PORTAL_URL="https://craftmaster7.github.io/cardworx/portal.html" 2>&1 | tee /tmp/s.log || { echo "::error title=Set function secrets failed::$(tail -c 600 /tmp/s.log | tr '\n' ' ')"; exit 1; }
       - name: Deploy notify-submission
-        run: supabase functions deploy notify-submission --project-ref "$REF" --no-verify-jwt
+        run: |
+          set -o pipefail; supabase functions deploy notify-submission --project-ref "$REF" --no-verify-jwt 2>&1 | tee /tmp/s.log || { echo "::error title=Deploy notify-submission failed::$(tail -c 600 /tmp/s.log | tr '\n' ' ')"; exit 1; }
       - name: Deploy invite-agent
-        run: supabase functions deploy invite-agent --project-ref "$REF" --no-verify-jwt
+        run: |
+          set -o pipefail; supabase functions deploy invite-agent --project-ref "$REF" --no-verify-jwt 2>&1 | tee /tmp/s.log || { echo "::error title=Deploy invite-agent failed::$(tail -c 600 /tmp/s.log | tr '\n' ' ')"; exit 1; }
