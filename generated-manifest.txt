@@ -6,7 +6,6 @@ ind-jewelry.jpg|https://d8j0ntlcm91z4.cloudfront.net/user_3IPbGKFr8zpRIlx7VXBomh
 ind-coffee.jpg|https://d8j0ntlcm91z4.cloudfront.net/user_3IPbGKFr8zpRIlx7VXBomh5mOI3/hf_20260916_044142_0831eb64-a035-4d7d-8057-744feaf6c135.png
 ind-professional.jpg|https://d8j0ntlcm91z4.cloudfront.net/user_3IPbGKFr8zpRIlx7VXBomh5mOI3/hf_20260916_044142_ea99f8a2-f679-49aa-a148-21961b4aacef.png
 ind-cannabis.jpg|https://d8j0ntlcm91z4.cloudfront.net/user_3IPbGKFr8zpRIlx7VXBomh5mOI3/hf_20260916_044142_a54d94c7-322d-4f1b-b086-c32441f59934.png
-svc-dual-pricing.jpg|https://d8j0ntlcm91z4.cloudfront.net/user_3IPbGKFr8zpRIlx7VXBomh5mOI3/hf_20260916_044725_d38200b4-da06-46c6-857d-1eb412542654.png
 svc-card-processing.jpg|https://d8j0ntlcm91z4.cloudfront.net/user_3IPbGKFr8zpRIlx7VXBomh5mOI3/hf_20260916_044725_31366c92-ba6f-4dad-a719-9b43435d8dc9.png
 svc-crypto.jpg|https://d8j0ntlcm91z4.cloudfront.net/user_3IPbGKFr8zpRIlx7VXBomh5mOI3/hf_20260916_044725_4933aa39-2689-4bcb-8130-d73412d69dcf.png
 svc-customer-financing.jpg|https://d8j0ntlcm91z4.cloudfront.net/user_3IPbGKFr8zpRIlx7VXBomh5mOI3/hf_20260916_044725_c73fd754-bbe8-4b63-a428-b6521a58e274.png
@@ -25,5 +24,3 @@ coin-eth.png|https://d8j0ntlcm91z4.cloudfront.net/user_3IPbGKFr8zpRIlx7VXBomh5mO
 hero-1080.mp4|https://video.wixstatic.com/video/235299_a72578a3e6274c4db9cd5dfb470f2649/1080p/mp4/file.mp4
 hero-720.mp4|https://video.wixstatic.com/video/235299_a72578a3e6274c4db9cd5dfb470f2649/720p/mp4/file.mp4
 hero-poster.jpg|https://static.wixstatic.com/media/235299_a72578a3e6274c4db9cd5dfb470f2649f000.jpg
-review-dp-1.png|https://d8j0ntlcm91z4.cloudfront.net/user_3IPbGKFr8zpRIlx7VXBomh5mOI3/hf_20260917_014938_98f147e3-3c9c-44e3-8e24-973185c12a30.png
-review-dp-2.png|https://d8j0ntlcm91z4.cloudfront.net/user_3IPbGKFr8zpRIlx7VXBomh5mOI3/hf_20260917_014940_dfc9eaff-508c-487d-a8ec-8232563080e1.png
