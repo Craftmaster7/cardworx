@@ -129,7 +129,15 @@ drop policy if exists "resources admin write" on storage.objects;
 create policy "resources admin write" on storage.objects for all using (bucket_id = 'resources' and public.is_admin()) with check (bucket_id = 'resources' and public.is_admin());
 
 -- Email notification: call the notify-submission function on every new submission. __REF__ is filled in by the deploy workflow.
-create extension if not exists pg_net;
+create extension if not exists pg_net with schema extensions;
+create or replace function public.notify_submission() returns trigger language plpgsql security definer set search_path = public, extensions as $$
+begin
+  perform net.http_post(
+    url := 'https://__REF__.supabase.co/functions/v1/notify-submission',
+    headers := '{"Content-Type":"application/json"}'::jsonb,
+    body := jsonb_build_object('type','INSERT','table','submissions','record', to_jsonb(new)),
+    timeout_milliseconds := 5000);
+  return new;
+end $$;
 drop trigger if exists submissions_notify on public.submissions;
-create trigger submissions_notify after insert on public.submissions for each row
-  execute function supabase_functions.http_request('https://__REF__.supabase.co/functions/v1/notify-submission', 'POST', '{"Content-Type":"application/json"}', '{}', '5000');
+create trigger submissions_notify after insert on public.submissions for each row execute function public.notify_submission();
