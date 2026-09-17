@@ -50,10 +50,14 @@ jobs:
           done
       - name: Set function secrets
         run: |
-          set -o pipefail; supabase secrets set --project-ref "$REF" RESEND_API_KEY="${{ secrets.RESEND_API_KEY }}" NOTIFY_TO="${{ secrets.NOTIFY_TO }}" PORTAL_URL="https://craftmaster7.github.io/cardworx/portal.html" 2>&1 | tee /tmp/s.log || { echo "::error title=Set function secrets failed::$(tail -c 600 /tmp/s.log | tr '\n' ' ')"; exit 1; }
-      - name: Deploy notify-submission
+          body=$(python3 -c "import json,os;print(json.dumps([{'name':'RESEND_API_KEY','value':os.environ['R']},{'name':'NOTIFY_TO','value':os.environ['N']},{'name':'PORTAL_URL','value':'https://craftmaster7.github.io/cardworx/portal.html'}]))")
+          code=$(curl -s -o /tmp/s.log -w "%{http_code}" -X POST -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" -H "Content-Type: application/json" -d "$body" "https://api.supabase.com/v1/projects/$REF/secrets")
+          echo "HTTP $code"; [ "$code" = "201" ] || [ "$code" = "200" ] || { echo "::error title=Set function secrets failed::HTTP $code $(tr -d '\n' < /tmp/s.log | cut -c1-500)"; exit 1; }
+        env: { R: "${{ secrets.RESEND_API_KEY }}", N: "${{ secrets.NOTIFY_TO }}" }
+      - name: Deploy edge functions
         run: |
-          set -o pipefail; supabase functions deploy notify-submission --project-ref "$REF" --no-verify-jwt 2>&1 | tee /tmp/s.log || { echo "::error title=Deploy notify-submission failed::$(tail -c 600 /tmp/s.log | tr '\n' ' ')"; exit 1; }
-      - name: Deploy invite-agent
-        run: |
-          set -o pipefail; supabase functions deploy invite-agent --project-ref "$REF" --no-verify-jwt 2>&1 | tee /tmp/s.log || { echo "::error title=Deploy invite-agent failed::$(tail -c 600 /tmp/s.log | tr '\n' ' ')"; exit 1; }
+          for fn in notify-submission invite-agent; do
+            meta=$(python3 -c "import json;print(json.dumps({'name':'$fn','entrypoint_path':'index.ts','verify_jwt':False}))")
+            code=$(curl -s -o /tmp/s.log -w "%{http_code}" -X POST -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" -F "metadata=$meta;type=application/json" -F "file=@supabase/functions/$fn/index.ts;filename=index.ts;type=application/typescript" "https://api.supabase.com/v1/projects/$REF/functions/deploy?slug=$fn")
+            echo "$fn HTTP $code"; case "$code" in 2*) ;; *) echo "::error title=Deploy $fn failed::HTTP $code $(tr -d '\n' < /tmp/s.log | cut -c1-500)"; exit 1;; esac
+          done
