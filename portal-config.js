@@ -1,2 +1,2 @@
 // Supabase project connection for the agent portal. The anon key is safe to publish; row level security protects the data.
-window.PORTAL_CONFIG={url:'PASTE_SUPABASE_PROJECT_URL',anonKey:'PASTE_SUPABASE_ANON_KEY'};
+window.PORTAL_CONFIG={url:'https://mdafapqlbergrpgrgpin.supabase.co',anonKey:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1kYWZhcHFsYmVyZ3JwZ3JncGluIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2MDk2MTAsImV4cCI6MjEwNTE4NTYxMH0.4XWKz7S3i53DUpcjl07qurfMHB71dW9_7KFpGUB2J9Y'};
