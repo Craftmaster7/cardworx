@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Cardworx Agent Portal</title>
+<link rel="icon" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="portal-config.js"></script>
+<style>
+:root{--bg:#05070c;--bg2:#0b1019;--panel:#0f1521;--line:rgba(244,241,234,.09);--white:#f4f1ea;--dim:#a9adb6;--orange:#f14b1c;--teal:#1fa39a;--teal2:#62d9cf;--red:#ff5c5c;--font:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',sans-serif}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--white);font-family:var(--font);font-size:15px;line-height:1.5}
+a{color:var(--teal2)}button{font:inherit;cursor:pointer}input,select,textarea{font:inherit}
+.hidden{display:none!important}
+header{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.8rem 4vw;background:rgba(5,7,12,.85);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+header img{height:34px}header .who{color:var(--dim);font-size:.85rem}header .who b{color:var(--white);display:block;font-size:.95rem}
+.wrap{max-width:1180px;margin:0 auto;padding:1.6rem 4vw 4rem}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.7rem 1.2rem;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--white);font-weight:600;font-size:.9rem}
+.btn:hover{border-color:rgba(244,241,234,.25)}.btn.primary{background:var(--orange);border-color:var(--orange);color:#fff}.btn.teal{background:var(--teal);border-color:var(--teal);color:#fff}.btn.sm{padding:.4rem .8rem;font-size:.8rem}.btn:disabled{opacity:.5;cursor:default}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:1.4rem}
+.tabs{display:flex;gap:.3rem;flex-wrap:wrap;margin:0 0 1.4rem;border-bottom:1px solid var(--line)}
+.tabs button{background:none;border:0;color:var(--dim);padding:.8rem 1rem;font-weight:600;border-bottom:2px solid transparent;margin-bottom:-1px}.tabs button.on{color:var(--white);border-color:var(--orange)}
+h1{font-size:1.6rem;letter-spacing:-.02em;margin:0 0 .3rem}h2{font-size:1.15rem;margin:0 0 1rem}.lead{color:var(--dim);margin:0 0 1.4rem}
+.grid{display:grid;gap:1rem}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:800px){.g2,.g3,.g4{grid-template-columns:1fr}}
+label{display:block;font-size:.8rem;color:var(--dim);margin-bottom:.35rem}
+input,select,textarea{width:100%;padding:.7rem .85rem;border-radius:10px;border:1px solid var(--line);background:#0a0f18;color:var(--white)}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--teal)}textarea{min-height:90px;resize:vertical}
+.field{margin-bottom:.9rem}
+table{width:100%;border-collapse:collapse;font-size:.9rem}th{text-align:left;color:var(--dim);font-weight:600;font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;padding:.6rem .7rem;border-bottom:1px solid var(--line)}
+td{padding:.75rem .7rem;border-bottom:1px solid var(--line);vertical-align:top}tr:hover td{background:rgba(244,241,234,.02)}.tbl{overflow-x:auto}
+.stage{display:inline-block;padding:.2rem .6rem;border-radius:999px;font-size:.75rem;font-weight:600;border:1px solid var(--line);color:var(--dim)}
+.stage.Lead{color:#c9cdd6}.stage.Statement{color:var(--teal2);border-color:rgba(31,163,154,.4)}.stage.Proposal{color:#ffb38a;border-color:rgba(241,75,28,.35)}.stage.Signed{color:#fff;background:var(--orange);border-color:var(--orange)}.stage.Active{color:#fff;background:var(--teal);border-color:var(--teal)}.stage.Lost{color:var(--red)}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:.8rem;margin-bottom:1.4rem}@media(max-width:800px){.kpis{grid-template-columns:1fr 1fr}}
+.kpi{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:1rem}.kpi b{display:block;font-size:1.6rem;letter-spacing:-.02em}.kpi span{color:var(--dim);font-size:.8rem}
+.toolbar{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-bottom:1rem;flex-wrap:wrap}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.65);display:grid;place-items:center;padding:1rem;z-index:50}.modal .card{width:min(680px,100%);max-height:92vh;overflow:auto}
+.msg{padding:.8rem 1rem;border-radius:12px;font-size:.9rem;margin-bottom:1rem}.msg.ok{background:rgba(31,163,154,.15);border:1px solid rgba(31,163,154,.4)}.msg.err{background:rgba(255,92,92,.12);border:1px solid rgba(255,92,92,.4)}
+.login{min-height:100vh;display:grid;place-items:center;padding:1.5rem}.login .card{width:min(420px,100%)}.login img{height:44px;margin-bottom:1.6rem}
+.drop{border:1px dashed rgba(244,241,234,.25);border-radius:12px;padding:1.2rem;text-align:center;color:var(--dim);font-size:.9rem}.drop.over{border-color:var(--teal)}.files{margin:.6rem 0 0;padding:0;list-style:none;font-size:.85rem;color:var(--dim)}
+.res{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.9rem 0;border-bottom:1px solid var(--line)}.res b{display:block}.res span{color:var(--dim);font-size:.85rem}
+.empty{color:var(--dim);padding:2rem 0;text-align:center}
+@media(max-width:600px){header img{height:26px}header .who{display:none}.btn{white-space:nowrap}.kpis{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<!-- ===== LOGIN ===== -->
+<div id="login" class="login hidden">
+  <div class="card">
+    <img src="assets/logo-white.png" alt="Cardworx">
+    <h1>Agent portal</h1>
+    <p class="lead">Sign in with the email you were invited with.</p>
+    <div id="loginMsg"></div>
+    <div class="field"><label>Email</label><input id="lEmail" type="email" autocomplete="email"></div>
+    <div class="field"><label>Password</label><input id="lPass" type="password" autocomplete="current-password"></div>
+    <button class="btn primary" style="width:100%;justify-content:center" onclick="signIn()">Sign in</button>
+    <p style="font-size:.85rem;color:var(--dim);margin-top:1rem"><a href="#" onclick="forgot();return false">Forgot password?</a> Access is by invitation. Contact Cardworx at (888) 384-6450.</p>
+  </div>
+</div>
+
+<!-- ===== SET PASSWORD (after invite or reset link) ===== -->
+<div id="setpass" class="login hidden">
+  <div class="card">
+    <img src="assets/logo-white.png" alt="Cardworx">
+    <h1>Set your password</h1>
+    <p class="lead">Welcome to Cardworx. Choose a password to finish setting up your login.</p>
+    <div id="setMsg"></div>
+    <div class="field"><label>Your name</label><input id="sName"></div>
+    <div class="field"><label>New password (8+ characters)</label><input id="sPass" type="password" autocomplete="new-password"></div>
+    <button class="btn primary" style="width:100%;justify-content:center" onclick="setPassword()">Save and continue</button>
+  </div>
+</div>
+
+<!-- ===== APP ===== -->
+<div id="app" class="hidden">
+  <header>
+    <a href="index.html"><img src="assets/logo-white.png" alt="Cardworx"></a>
+    <div style="display:flex;align-items:center;gap:1rem"><div class="who"><b id="whoName"></b><span id="whoRole"></span></div><button class="btn sm" onclick="signOut()">Sign out</button></div>
+  </header>
+  <div class="wrap">
+    <div class="tabs" id="tabs">
+      <button data-tab="pipeline" class="on">Pipeline</button>
+      <button data-tab="accounts">Active accounts</button>
+      <button data-tab="submit">Submit a statement</button>
+      <button data-tab="resources">Resources</button>
+      <button data-tab="admin" id="adminTab" class="hidden">Admin</button>
+    </div>
+
+    <!-- Pipeline -->
+    <section id="tab-pipeline">
+      <div class="kpis" id="kpis"></div>
+      <div class="toolbar"><h2 style="margin:0">Your pipeline</h2><div style="display:flex;gap:.5rem;align-items:center"><select id="stageFilter" style="width:auto" onchange="renderProspects()"><option value="">All stages</option></select><button class="btn primary sm" onclick="openProspect()">+ Add prospect</button></div></div>
+      <div class="card tbl"><table><thead><tr><th>Business</th><th>Contact</th><th>Type</th><th>Volume</th><th>Stage</th><th>Next step</th><th>Updated</th><th></th></tr></thead><tbody id="prospectRows"></tbody></table><div id="prospectEmpty" class="empty hidden">No prospects yet. Add your first one.</div></div>
+    </section>
+
+    <!-- Accounts -->
+    <section id="tab-accounts" class="hidden">
+      <h2>Active accounts</h2><p class="lead">Merchants you brought that are live and processing.</p>
+      <div class="card tbl"><table><thead><tr><th>Business</th><th>Contact</th><th>Type</th><th>Monthly volume</th><th>Notes</th><th>Since</th></tr></thead><tbody id="accountRows"></tbody></table><div id="accountEmpty" class="empty hidden">No active accounts yet.</div></div>
+    </section>
+
+    <!-- Submit -->
+    <section id="tab-submit" class="hidden">
+      <h2>Submit a statement for cost analysis</h2><p class="lead">Upload the merchant's most recent processing statement. Cardworx reviews it and sends the analysis back to you.</p>
+      <div id="subMsg"></div>
+      <div class="card">
+        <div class="grid g2">
+          <div class="field"><label>Business name *</label><input id="fBiz"></div>
+          <div class="field"><label>Link to a prospect (optional)</label><select id="fProspect"><option value="">None</option></select></div>
+          <div class="field"><label>Contact name</label><input id="fContact"></div>
+          <div class="field"><label>Phone</label><input id="fPhone"></div>
+          <div class="field"><label>Email</label><input id="fEmail" type="email"></div>
+          <div class="field"><label>Business type</label><input id="fType" placeholder="Restaurant, salon, auto repair..."></div>
+          <div class="field"><label>Monthly card volume ($)</label><input id="fVolume" type="number" min="0"></div>
+          <div class="field"><label>Current processor</label><input id="fProc"></div>
+        </div>
+        <div class="field"><label>Notes for the analyst</label><textarea id="fNotes"></textarea></div>
+        <div class="field"><label>Statements (PDF or images, up to 10 files)</label>
+          <div class="drop" id="drop">Drag files here or <a href="#" onclick="document.getElementById('fFiles').click();return false">choose files</a><input id="fFiles" type="file" multiple accept=".pdf,image/*" class="hidden" onchange="pickFiles(this.files)"></div>
+          <ul class="files" id="fileList"></ul></div>
+        <button class="btn primary" id="subBtn" onclick="submitStatement()">Send for analysis</button>
+      </div>
+      <h2 style="margin-top:2rem">Your submissions</h2>
+      <div class="card tbl"><table><thead><tr><th>Business</th><th>Submitted</th><th>Files</th><th>Status</th></tr></thead><tbody id="subRows"></tbody></table><div id="subEmpty" class="empty hidden">Nothing submitted yet.</div></div>
+    </section>
+
+    <!-- Resources -->
+    <section id="tab-resources" class="hidden">
+      <h2>Resources</h2><p class="lead">Pricing sheets, signage, training and marketing material.</p>
+      <div class="card" id="resList"></div>
+    </section>
+
+    <!-- Admin -->
+    <section id="tab-admin" class="hidden">
+      <div class="grid g2">
+        <div class="card"><h2>Invite an agent</h2><div id="invMsg"></div>
+          <div class="field"><label>Name</label><input id="iName"></div>
+          <div class="field"><label>Email</label><input id="iEmail" type="email"></div>
+          <div class="field"><label>Role</label><select id="iRole"><option value="agent">Agent</option><option value="admin">Admin</option></select></div>
+          <button class="btn teal" onclick="invite()">Send invitation</button></div>
+        <div class="card"><h2>Add a resource</h2><div id="resMsg"></div>
+          <div class="field"><label>Title</label><input id="rTitle"></div>
+          <div class="field"><label>Category</label><input id="rCat" placeholder="Pricing, Signage, Training, Marketing"></div>
+          <div class="field"><label>Description</label><input id="rDesc"></div>
+          <div class="field"><label>File</label><input id="rFile" type="file"></div>
+          <div class="field"><label>or link (URL)</label><input id="rUrl" placeholder="https://"></div>
+          <button class="btn teal" onclick="addResource()">Add resource</button></div>
+      </div>
+      <h2 style="margin-top:2rem">All statement submissions</h2>
+      <div class="card tbl"><table><thead><tr><th>Submitted</th><th>Agent</th><th>Business</th><th>Contact</th><th>Volume</th><th>Files</th><th>Status</th></tr></thead><tbody id="adminSubRows"></tbody></table></div>
+      <h2 style="margin-top:2rem">Pipeline across all agents</h2>
+      <div class="card tbl"><table><thead><tr><th>Agent</th><th>Business</th><th>Stage</th><th>Volume</th><th>Next step</th><th>Updated</th></tr></thead><tbody id="adminProspectRows"></tbody></table></div>
+    </section>
+  </div>
+</div>
+
+<!-- Prospect modal -->
+<div id="modal" class="modal hidden" onclick="if(event.target===this)closeModal()">
+  <div class="card">
+    <h2 id="mTitle">Add prospect</h2>
+    <div class="grid g2">
+      <div class="field"><label>Business name *</label><input id="pBiz"></div>
+      <div class="field"><label>Stage</label><select id="pStage"></select></div>
+      <div class="field"><label>Contact name</label><input id="pContact"></div>
+      <div class="field"><label>Phone</label><input id="pPhone"></div>
+      <div class="field"><label>Email</label><input id="pEmail"></div>
+      <div class="field"><label>Business type</label><input id="pType"></div>
+      <div class="field"><label>Monthly card volume ($)</label><input id="pVolume" type="number" min="0"></div>
+      <div class="field"><label>Next step</label><input id="pNext" placeholder="Call back Tuesday, send proposal..."></div>
+    </div>
+    <div class="field"><label>Notes</label><textarea id="pNotes"></textarea></div>
+    <div style="display:flex;justify-content:space-between;gap:.6rem;flex-wrap:wrap">
+      <button class="btn sm" id="pDelete" onclick="deleteProspect()" style="color:var(--red)">Delete</button>
+      <div style="display:flex;gap:.6rem"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn primary" onclick="saveProspect()">Save</button></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const STAGES=['Lead','Statement in','Proposal','Signed','Active','Lost'];
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const money=n=>n==null||n===''?'':'$'+Number(n).toLocaleString();
+const when=d=>new Date(d).toLocaleDateString();
+const DEMO=new URLSearchParams(location.search).get('demo')==='1';
+let sb,me,profile,prospects=[],subs=[],files=[];
+
+/* ---------- Supabase client (or a demo stand-in for previewing the UI) ---------- */
+if(DEMO){ me={id:'demo'}; profile={id:'demo',email:'agent@example.com',full_name:'Demo Agent',role:new URLSearchParams(location.search).get('role')||'agent'};
+  prospects=[{id:'1',business_name:'Harbor Diner',contact_name:'Maria L.',business_type:'Restaurant',monthly_volume:42000,stage:'Proposal',next_step:'Follow up Thursday',updated_at:new Date().toISOString(),created_at:new Date().toISOString()},
+   {id:'2',business_name:'Glow Salon',contact_name:'Dee',business_type:'Salon',monthly_volume:18000,stage:'Statement in',next_step:'Waiting on analysis',updated_at:new Date().toISOString(),created_at:new Date().toISOString()},
+   {id:'3',business_name:'Precision Auto',contact_name:'Rob',business_type:'Auto repair',monthly_volume:60000,stage:'Active',next_step:'',updated_at:new Date().toISOString(),created_at:new Date().toISOString(),notes:'Went live 9/1'}];
+  subs=[{id:'s1',business_name:'Glow Salon',created_at:new Date().toISOString(),file_paths:['demo/statement.pdf'],status:'In review'}];
+} else {
+  if(!window.PORTAL_CONFIG||!PORTAL_CONFIG.url||PORTAL_CONFIG.url.startsWith('PASTE')){document.body.innerHTML='<div class="login"><div class="card"><h1>Portal not connected yet</h1><p class="lead">The portal-config.js file needs the Supabase project URL and anon key.</p></div></div>'}
+  else sb=supabase.createClient(PORTAL_CONFIG.url,PORTAL_CONFIG.anonKey);
+}
+
+/* ---------- Auth ---------- */
+async function boot(){
+  if(DEMO){return enterApp()}
+  if(!sb)return;
+  const hash=new URLSearchParams(location.hash.slice(1));
+  sb.auth.onAuthStateChange(async(ev,session)=>{
+    if(ev==='PASSWORD_RECOVERY'||(session&&(hash.get('type')==='invite'||hash.get('type')==='recovery'))){show('setpass');return}
+    if(session){await loadProfile();enterApp()} else show('login');
+  });
+  const {data:{session}}=await sb.auth.getSession();
+  if(!session)show('login');
+}
+function show(id){['login','setpass','app'].forEach(i=>$(i).classList.toggle('hidden',i!==id))}
+async function signIn(){const {error}=await sb.auth.signInWithPassword({email:$('lEmail').value.trim(),password:$('lPass').value});$('loginMsg').innerHTML=error?`<div class="msg err">${esc(error.message)}</div>`:''}
+async function forgot(){const email=$('lEmail').value.trim();if(!email)return $('loginMsg').innerHTML='<div class="msg err">Enter your email first.</div>';const {error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:location.href.split('#')[0]});$('loginMsg').innerHTML=error?`<div class="msg err">${esc(error.message)}</div>`:'<div class="msg ok">Check your email for a reset link.</div>'}
+async function setPassword(){const p=$('sPass').value;if(p.length<8)return $('setMsg').innerHTML='<div class="msg err">Use at least 8 characters.</div>';
+  const {error}=await sb.auth.updateUser({password:p,data:{full_name:$('sName').value.trim()}});if(error)return $('setMsg').innerHTML=`<div class="msg err">${esc(error.message)}</div>`;
+  await sb.from('profiles').update({full_name:$('sName').value.trim()}).eq('id',(await sb.auth.getUser()).data.user.id);history.replaceState(null,'',location.pathname);await loadProfile();enterApp()}
+async function signOut(){if(DEMO)return location.href='index.html';await sb.auth.signOut();location.reload()}
+async function loadProfile(){const {data:{user}}=await sb.auth.getUser();me=user;const {data}=await sb.from('profiles').select('*').eq('id',user.id).single();profile=data||{id:user.id,email:user.email,full_name:'',role:'agent'}}
+
+/* ---------- App ---------- */
+async function enterApp(){show('app');$('whoName').textContent=profile.full_name||profile.email;$('whoRole').textContent=profile.role==='admin'?'Admin':'Agent';$('adminTab').classList.toggle('hidden',profile.role!=='admin');
+  $('stageFilter').innerHTML='<option value="">All stages</option>'+STAGES.map(s=>`<option>${s}</option>`).join('');$('pStage').innerHTML=STAGES.map(s=>`<option>${s}</option>`).join('');
+  document.querySelectorAll('#tabs button').forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
+  await refresh();}
+function showTab(t){document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===t));['pipeline','accounts','submit','resources','admin'].forEach(x=>$('tab-'+x).classList.toggle('hidden',x!==t));if(t==='resources')loadResources();if(t==='admin')loadAdmin()}
+async function refresh(){if(!DEMO){const p=await sb.from('prospects').select('*').eq('agent_id',me.id).order('updated_at',{ascending:false});prospects=p.data||[];const s=await sb.from('submissions').select('*').eq('agent_id',me.id).order('created_at',{ascending:false});subs=s.data||[]}
+  renderKpis();renderProspects();renderAccounts();renderSubs();$('fProspect').innerHTML='<option value="">None</option>'+prospects.filter(p=>p.stage!=='Active'&&p.stage!=='Lost').map(p=>`<option value="${p.id}">${esc(p.business_name)}</option>`).join('')}
+function renderKpis(){const c=s=>prospects.filter(p=>p.stage===s).length;const vol=prospects.filter(p=>p.stage==='Active').reduce((a,p)=>a+Number(p.monthly_volume||0),0);
+  $('kpis').innerHTML=[['Leads',c('Lead')],['Statements in',c('Statement in')],['Proposals',c('Proposal')],['Signed',c('Signed')],['Active volume',money(vol)||'$0']].map(([l,v])=>`<div class="kpi"><b>${v}</b><span>${l}</span></div>`).join('')}
+function renderProspects(){const f=$('stageFilter').value;const rows=prospects.filter(p=>p.stage!=='Active'&&(!f||p.stage===f));$('prospectEmpty').classList.toggle('hidden',rows.length>0);
+  $('prospectRows').innerHTML=rows.map(p=>`<tr><td><b>${esc(p.business_name)}</b></td><td>${esc(p.contact_name)}<br><span style="color:var(--dim);font-size:.8rem">${esc(p.phone||'')}</span></td><td>${esc(p.business_type)}</td><td>${money(p.monthly_volume)}</td><td><span class="stage ${p.stage.split(' ')[0]}">${p.stage}</span></td><td>${esc(p.next_step)}</td><td style="color:var(--dim)">${when(p.updated_at)}</td><td><button class="btn sm" onclick="openProspect('${p.id}')">Edit</button></td></tr>`).join('')}
+function renderAccounts(){const rows=prospects.filter(p=>p.stage==='Active');$('accountEmpty').classList.toggle('hidden',rows.length>0);
+  $('accountRows').innerHTML=rows.map(p=>`<tr><td><b>${esc(p.business_name)}</b></td><td>${esc(p.contact_name)}</td><td>${esc(p.business_type)}</td><td>${money(p.monthly_volume)}</td><td>${esc(p.notes)}</td><td style="color:var(--dim)">${when(p.updated_at)}</td></tr>`).join('')}
+function renderSubs(){$('subEmpty').classList.toggle('hidden',subs.length>0);$('subRows').innerHTML=subs.map(s=>`<tr><td><b>${esc(s.business_name)}</b></td><td style="color:var(--dim)">${when(s.created_at)}</td><td>${(s.file_paths||[]).length}</td><td><span class="stage ${s.status==='Analysis sent'?'Active':'Statement'}">${s.status}</span></td></tr>`).join('')}
+
+/* ---------- Prospects ---------- */
+let editing=null;
+function openProspect(id){editing=id?prospects.find(p=>p.id===id):null;$('mTitle').textContent=editing?'Edit prospect':'Add prospect';$('pDelete').classList.toggle('hidden',!editing);
+  const v=editing||{};$('pBiz').value=v.business_name||'';$('pStage').value=v.stage||'Lead';$('pContact').value=v.contact_name||'';$('pPhone').value=v.phone||'';$('pEmail').value=v.email||'';$('pType').value=v.business_type||'';$('pVolume').value=v.monthly_volume||'';$('pNext').value=v.next_step||'';$('pNotes').value=v.notes||'';$('modal').classList.remove('hidden')}
+function closeModal(){$('modal').classList.add('hidden')}
+async function saveProspect(){const row={agent_id:me.id,business_name:$('pBiz').value.trim(),stage:$('pStage').value,contact_name:$('pContact').value.trim(),phone:$('pPhone').value.trim(),email:$('pEmail').value.trim(),business_type:$('pType').value.trim(),monthly_volume:$('pVolume').value||null,next_step:$('pNext').value.trim(),notes:$('pNotes').value.trim()};
+  if(!row.business_name)return alert('Business name is required.');
+  if(DEMO){if(editing)Object.assign(editing,row,{updated_at:new Date().toISOString()});else prospects.unshift({...row,id:String(Date.now()),updated_at:new Date().toISOString()})}
+  else{const q=editing?sb.from('prospects').update(row).eq('id',editing.id):sb.from('prospects').insert(row);const {error}=await q;if(error)return alert(error.message)}
+  closeModal();await refresh()}
+async function deleteProspect(){if(!editing||!confirm('Delete this prospect?'))return;if(DEMO)prospects=prospects.filter(p=>p!==editing);else{const {error}=await sb.from('prospects').delete().eq('id',editing.id);if(error)return alert(error.message)}closeModal();await refresh()}
+
+/* ---------- Statement submission ---------- */
+const drop=$('drop');['dragenter','dragover'].forEach(e=>drop.addEventListener(e,ev=>{ev.preventDefault();drop.classList.add('over')}));['dragleave','drop'].forEach(e=>drop.addEventListener(e,ev=>{ev.preventDefault();drop.classList.remove('over')}));drop.addEventListener('drop',ev=>pickFiles(ev.dataTransfer.files));
+function pickFiles(list){files=[...files,...Array.from(list)].slice(0,10);$('fileList').innerHTML=files.map((f,i)=>`<li>${esc(f.name)} (${Math.round(f.size/1024)} KB) <a href="#" onclick="files.splice(${i},1);pickFiles([]);return false">remove</a></li>`).join('')}
+async function submitStatement(){const biz=$('fBiz').value.trim();if(!biz)return $('subMsg').innerHTML='<div class="msg err">Business name is required.</div>';if(!files.length)return $('subMsg').innerHTML='<div class="msg err">Attach at least one statement.</div>';
+  $('subBtn').disabled=true;$('subMsg').innerHTML='<div class="msg ok">Uploading...</div>';
+  const paths=[];
+  try{
+    if(!DEMO)for(const f of files){const path=`${me.id}/${Date.now()}-${f.name.replace(/[^a-zA-Z0-9._-]/g,'_')}`;const {error}=await sb.storage.from('statements').upload(path,f);if(error)throw error;paths.push(path)}
+    const row={agent_id:me.id,prospect_id:$('fProspect').value||null,business_name:biz,contact_name:$('fContact').value.trim(),phone:$('fPhone').value.trim(),email:$('fEmail').value.trim(),business_type:$('fType').value.trim(),monthly_volume:$('fVolume').value||null,current_processor:$('fProc').value.trim(),notes:$('fNotes').value.trim(),file_paths:paths};
+    if(DEMO)subs.unshift({...row,id:String(Date.now()),status:'Received',created_at:new Date().toISOString()});
+    else{const {error}=await sb.from('submissions').insert(row);if(error)throw error;
+      if(row.prospect_id){await sb.from('prospects').update({stage:'Statement in'}).eq('id',row.prospect_id).eq('stage','Lead')}}
+    $('subMsg').innerHTML='<div class="msg ok">Sent. Cardworx will review the statement and get back to you.</div>';
+    ['fBiz','fContact','fPhone','fEmail','fType','fVolume','fProc','fNotes'].forEach(i=>$(i).value='');files=[];pickFiles([]);await refresh();
+  }catch(e){$('subMsg').innerHTML=`<div class="msg err">${esc(e.message||e)}</div>`}
+  $('subBtn').disabled=false}
+
+/* ---------- Resources ---------- */
+async function loadResources(){let rows=[];if(DEMO)rows=[{title:'Dual Pricing signage pack',category:'Signage',description:'Printable counter and door signs.',url:'#'},{title:'Agent pricing sheet',category:'Pricing',description:'Wholesale rates and equipment.',url:'#'}];
+  else{const {data}=await sb.from('resources').select('*').order('sort_order').order('created_at');rows=data||[]}
+  if(!rows.length)return $('resList').innerHTML='<div class="empty">No resources posted yet.</div>';
+  const out=[];for(const r of rows){let href=r.url||'#';if(!DEMO&&r.file_path){const {data}=await sb.storage.from('resources').createSignedUrl(r.file_path,3600);href=data?.signedUrl||'#'}
+    out.push(`<div class="res"><div><b>${esc(r.title)}</b><span>${esc(r.category)}${r.description?' · '+esc(r.description):''}</span></div><a class="btn sm" href="${href}" target="_blank" rel="noopener">Open</a></div>`)}
+  $('resList').innerHTML=out.join('')}
+
+/* ---------- Admin ---------- */
+async function loadAdmin(){if(profile.role!=='admin')return;
+  if(DEMO){$('adminSubRows').innerHTML='<tr><td>today</td><td>Demo Agent</td><td>Glow Salon</td><td>Dee</td><td>$18,000</td><td><a href="#">statement.pdf</a></td><td>In review</td></tr>';$('adminProspectRows').innerHTML=prospects.map(p=>`<tr><td>Demo Agent</td><td>${esc(p.business_name)}</td><td><span class="stage ${p.stage.split(' ')[0]}">${p.stage}</span></td><td>${money(p.monthly_volume)}</td><td>${esc(p.next_step)}</td><td>${when(p.updated_at)}</td></tr>`).join('');return}
+  const {data:agents}=await sb.from('profiles').select('id,email,full_name');const name=id=>{const a=(agents||[]).find(x=>x.id===id);return a?(a.full_name||a.email):''};
+  const {data:allSubs}=await sb.from('submissions').select('*').order('created_at',{ascending:false});
+  const rows=[];for(const s of allSubs||[]){const links=[];for(const p of s.file_paths||[]){const {data}=await sb.storage.from('statements').createSignedUrl(p,3600);links.push(`<a href="${data?.signedUrl||'#'}" target="_blank" rel="noopener">${esc(p.split('/').pop())}</a>`)}
+    rows.push(`<tr><td style="color:var(--dim)">${when(s.created_at)}</td><td>${esc(name(s.agent_id))}</td><td><b>${esc(s.business_name)}</b><br><span style="color:var(--dim);font-size:.8rem">${esc(s.business_type||'')} · ${esc(s.current_processor||'')}</span></td><td>${esc(s.contact_name)}<br><span style="color:var(--dim);font-size:.8rem">${esc(s.phone||'')} ${esc(s.email||'')}</span></td><td>${money(s.monthly_volume)}</td><td>${links.join('<br>')||'none'}</td><td><select style="width:auto" onchange="setStatus('${s.id}',this.value)">${['Received','In review','Analysis sent','Closed'].map(x=>`<option ${x===s.status?'selected':''}>${x}</option>`).join('')}</select></td></tr>`)}
+  $('adminSubRows').innerHTML=rows.join('')||'<tr><td colspan="7" class="empty">No submissions yet.</td></tr>';
+  const {data:allP}=await sb.from('prospects').select('*').order('updated_at',{ascending:false});
+  $('adminProspectRows').innerHTML=(allP||[]).map(p=>`<tr><td>${esc(name(p.agent_id))}</td><td><b>${esc(p.business_name)}</b></td><td><span class="stage ${p.stage.split(' ')[0]}">${p.stage}</span></td><td>${money(p.monthly_volume)}</td><td>${esc(p.next_step)}</td><td style="color:var(--dim)">${when(p.updated_at)}</td></tr>`).join('')||'<tr><td colspan="6" class="empty">Nothing in the pipeline yet.</td></tr>'}
+async function setStatus(id,status){const {error}=await sb.from('submissions').update({status}).eq('id',id);if(error)alert(error.message)}
+async function invite(){const email=$('iEmail').value.trim(),full_name=$('iName').value.trim(),role=$('iRole').value;if(!email)return;
+  if(DEMO)return $('invMsg').innerHTML='<div class="msg ok">Demo: invitation would be sent.</div>';
+  const {data:{session}}=await sb.auth.getSession();const r=await fetch(`${PORTAL_CONFIG.url}/functions/v1/invite-agent`,{method:'POST',headers:{'Content-Type':'application/json',Authorization:`Bearer ${session.access_token}`,apikey:PORTAL_CONFIG.anonKey},body:JSON.stringify({email,full_name,role})});const j=await r.json();
+  $('invMsg').innerHTML=j.ok?`<div class="msg ok">Invitation sent to ${esc(email)}.</div>`:`<div class="msg err">${esc(j.error||'Could not send invite')}</div>`;if(j.ok){$('iEmail').value='';$('iName').value=''}}
+async function addResource(){const title=$('rTitle').value.trim();if(!title)return;const f=$('rFile').files[0];let file_path=null;
+  if(DEMO)return $('resMsg').innerHTML='<div class="msg ok">Demo: resource would be added.</div>';
+  if(f){file_path=`${Date.now()}-${f.name.replace(/[^a-zA-Z0-9._-]/g,'_')}`;const {error}=await sb.storage.from('resources').upload(file_path,f);if(error)return $('resMsg').innerHTML=`<div class="msg err">${esc(error.message)}</div>`}
+  const {error}=await sb.from('resources').insert({title,category:$('rCat').value.trim()||'General',description:$('rDesc').value.trim(),file_path,url:$('rUrl').value.trim()||null});
+  $('resMsg').innerHTML=error?`<div class="msg err">${esc(error.message)}</div>`:'<div class="msg ok">Resource added.</div>';if(!error){['rTitle','rCat','rDesc','rUrl'].forEach(i=>$(i).value='');$('rFile').value=''}}
+
+boot();
+</script>
+</body>
+</html>
