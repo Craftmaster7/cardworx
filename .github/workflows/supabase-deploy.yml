@@ -30,7 +30,18 @@ jobs:
           open('supabase/migrations/20260917000001_admin.sql','w').write("insert into public.admin_emails(email) values ('%s') on conflict do nothing;\n"%email.replace("'","''"))
           PY
         env: { NOTIFY_TO: "${{ secrets.NOTIFY_TO }}" }
-      - run: supabase link --project-ref "$REF"
+      - name: Check access token can see the project
+        run: |
+          code=$(curl -s -o /tmp/p.json -w "%{http_code}" -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" "https://api.supabase.com/v1/projects/$REF")
+          echo "HTTP $code"; [ "$code" = "200" ] || { echo "Token cannot read project $REF"; cat /tmp/p.json; exit 1; }
+      - name: Check database password
+        run: |
+          host=$(python3 -c "import json;print(json.load(open('/tmp/p.json')).get('region',''))")
+          echo "region: $host"
+          sudo apt-get install -y -qq postgresql-client >/dev/null
+          PGPASSWORD="$SUPABASE_DB_PASSWORD" psql "postgresql://postgres.$REF@aws-0-$host.pooler.supabase.com:5432/postgres?sslmode=require" -c "select 1" >/dev/null && echo "password ok"
+      - name: Link project
+        run: supabase link --project-ref "$REF"
       - run: supabase db push --include-all
       - run: supabase secrets set RESEND_API_KEY="${{ secrets.RESEND_API_KEY }}" NOTIFY_TO="${{ secrets.NOTIFY_TO }}" PORTAL_URL="https://craftmaster7.github.io/cardworx/portal.html"
       - run: supabase functions deploy notify-submission
