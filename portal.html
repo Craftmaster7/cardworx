@@ -49,7 +49,7 @@ td{padding:.75rem .7rem;border-bottom:1px solid var(--line);vertical-align:top}t
 <body>
 
 <!-- ===== LOGIN ===== -->
-<div id="login" class="login hidden">
+<div id="login" class="login">
   <div class="card">
     <img src="assets/logo-white.png" alt="Cardworx">
     <h1>Agent portal</h1>
@@ -197,8 +197,10 @@ if(DEMO){ me={id:'demo'}; profile={id:'demo',email:'agent@example.com',full_name
   subs=[{id:'s1',business_name:'Glow Salon',created_at:new Date().toISOString(),file_paths:['demo/statement.pdf'],status:'In review'}];
 } else {
   if(!window.PORTAL_CONFIG||!PORTAL_CONFIG.url||PORTAL_CONFIG.url.startsWith('PASTE')){document.body.innerHTML='<div class="login"><div class="card"><h1>Portal not connected yet</h1><p class="lead">The portal-config.js file needs the Supabase project URL and anon key.</p></div></div>'}
+  else if(!window.supabase){document.body.innerHTML='<div class="login"><div class="card"><h1>Could not load the sign-in library</h1><p class="lead">Your browser or network blocked cdn.jsdelivr.net. Disable ad or script blockers for this page and reload.</p></div></div>'}
   else sb=supabase.createClient(PORTAL_CONFIG.url,PORTAL_CONFIG.anonKey);
 }
+window.addEventListener('error',e=>{const m=document.getElementById('loginMsg');if(m&&!m.innerHTML)m.innerHTML='<div class="msg err">Something went wrong loading the portal: '+esc(e.message)+'</div>'});
 
 /* ---------- Auth ---------- */
 async function boot(){
@@ -209,8 +211,8 @@ async function boot(){
     if(ev==='PASSWORD_RECOVERY'||(session&&(hash.get('type')==='invite'||hash.get('type')==='recovery'))){show('setpass');return}
     if(session){await loadProfile();enterApp()} else show('login');
   });
-  const {data:{session}}=await sb.auth.getSession();
-  if(!session)show('login');
+  try{const {data:{session}}=await sb.auth.getSession();if(!session)show('login')}
+  catch(e){show('login');$('loginMsg').innerHTML='<div class="msg err">'+esc(e.message)+'</div>'}
 }
 function show(id){['login','setpass','app'].forEach(i=>$(i).classList.toggle('hidden',i!==id))}
 async function signIn(){const {error}=await sb.auth.signInWithPassword({email:$('lEmail').value.trim(),password:$('lPass').value});$('loginMsg').innerHTML=error?`<div class="msg err">${esc(error.message)}</div>`:''}

@@ -392,7 +392,7 @@ footer li a:hover{color:var(--white)}
 .ind-list li.all{grid-column:1/-1;border:0;padding-top:2rem;font-family:var(--body);font-size:1.05rem;color:var(--dim)}
 .ind-list li.all a{color:var(--accent);text-decoration:none;border-bottom:1px solid currentColor}
 @media(max-width:900px){.ind-head{grid-template-columns:1fr}}
-@media(max-width:1180px){.nc .btn-line{display:none}.nl{gap:1.3rem}}
+@media(max-width:1180px){.nc .btn-line{display:none}nav.open .nc .btn-line{display:flex}.nl{gap:1.3rem}}
 @media(max-width:1100px){.fgrid{grid-template-columns:1fr 1fr}.fi{aspect-ratio:4/3}}
 /* ===== Code text overlays (crisp, editable text on top of blank AI screens/signs) =====
    Hidden until the generated images are in place: set <html data-gen="1"> to turn them on.
@@ -429,7 +429,7 @@ html[data-gen="1"] .ovl{display:block}
     <div class="nl">
       <div class="dd"><a href="dual-pricing.html">Solutions <i></i></a><div class="menu"><a href="dual-pricing.html">Dual Pricing & Cash Rewards</a><a href="card-processing.html">Credit Card Processing</a><a href="crypto-payments.html">Crypto Payments</a><a href="customer-financing.html">Customer Financing</a><a href="business-funding.html">Business Funding</a><a href="high-risk.html">High Risk & Cannabis</a></div></div><a href="industries.html">Industries</a><a href="terminals.html">Terminals</a><a href="savings.html">Savings</a><a href="agents.html">Agents</a><a href="faq.html">FAQ</a>
     </div>
-    <div class="nc"><a href="#merchant-form" class="btn btn-teal">Get a quote</a><a href="agents.html" class="btn btn-line">Become an agent</a></div>
+    <div class="nc"><a href="#merchant-form" class="btn btn-teal">Get a quote</a><a href="agents.html" class="btn btn-line">Become an agent</a><a href="portal.html" class="btn btn-line nav-portal">Agent login</a></div>
     <button class="burger" aria-label="Menu" onclick="document.getElementById('nav').classList.toggle('open')"><span></span><span></span><span></span></button>
   </div>
 </nav>
