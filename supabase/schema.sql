@@ -10,10 +10,15 @@ create table if not exists public.profiles (
   created_at timestamptz not null default now()
 );
 
+-- Emails listed here become admins automatically when they first sign in. Seeded by the deploy workflow.
+create table if not exists public.admin_emails (email text primary key);
+alter table public.admin_emails enable row level security;
+
 create or replace function public.handle_new_user() returns trigger language plpgsql security definer set search_path = public as $$
 begin
   insert into public.profiles (id, email, full_name, role)
-  values (new.id, new.email, coalesce(new.raw_user_meta_data->>'full_name',''), coalesce(new.raw_user_meta_data->>'role','agent'))
+  values (new.id, new.email, coalesce(new.raw_user_meta_data->>'full_name',''),
+    case when exists (select 1 from public.admin_emails a where lower(a.email) = lower(new.email)) then 'admin' else coalesce(new.raw_user_meta_data->>'role','agent') end)
   on conflict (id) do nothing;
   return new;
 end $$;
@@ -122,3 +127,9 @@ drop policy if exists "resources read signed in" on storage.objects;
 create policy "resources read signed in" on storage.objects for select using (bucket_id = 'resources' and auth.uid() is not null);
 drop policy if exists "resources admin write" on storage.objects;
 create policy "resources admin write" on storage.objects for all using (bucket_id = 'resources' and public.is_admin()) with check (bucket_id = 'resources' and public.is_admin());
+
+-- Email notification: call the notify-submission function on every new submission. :'REF' is passed in by the deploy workflow.
+create extension if not exists pg_net;
+drop trigger if exists submissions_notify on public.submissions;
+create trigger submissions_notify after insert on public.submissions for each row
+  execute function supabase_functions.http_request('https://' || :'REF' || '.supabase.co/functions/v1/notify-submission', 'POST', '{"Content-Type":"application/json"}', '{}', '5000');

@@ -1,6 +1,6 @@
 name: Deploy portal backend
-# Applies supabase/schema.sql and deploys the edge functions. Needs repo secrets:
-# SUPABASE_ACCESS_TOKEN, SUPABASE_PROJECT_REF, SUPABASE_DB_PASSWORD, SUPABASE_SERVICE_ROLE_KEY, RESEND_API_KEY, NOTIFY_TO
+# Applies supabase/schema.sql as a migration and deploys the edge functions. Needs repo secrets:
+# SUPABASE_ACCESS_TOKEN, SUPABASE_PROJECT_REF, SUPABASE_DB_PASSWORD, RESEND_API_KEY, NOTIFY_TO
 on:
   workflow_dispatch:
   push:
@@ -10,12 +10,19 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+      REF: ${{ secrets.SUPABASE_PROJECT_REF }}
     steps:
       - uses: actions/checkout@v4
       - uses: supabase/setup-cli@v1
         with: { version: latest }
-      - run: supabase link --project-ref "${{ secrets.SUPABASE_PROJECT_REF }}" --password "${{ secrets.SUPABASE_DB_PASSWORD }}"
-      - run: psql "postgresql://postgres.${{ secrets.SUPABASE_PROJECT_REF }}:${{ secrets.SUPABASE_DB_PASSWORD }}@aws-0-us-east-1.pooler.supabase.com:6543/postgres" -v ON_ERROR_STOP=1 -f supabase/schema.sql
+      - name: Build migration files
+        run: |
+          mkdir -p supabase/migrations
+          sed "s/__REF__/$REF/g" supabase/schema.sql > supabase/migrations/20260917000000_portal.sql
+          printf "insert into public.admin_emails(email) values ('%s') on conflict do nothing;\n" "${{ secrets.NOTIFY_TO }}" > supabase/migrations/20260917000001_admin.sql
+      - run: supabase link --project-ref "$REF"
+      - run: supabase db push --include-all
       - run: supabase secrets set RESEND_API_KEY="${{ secrets.RESEND_API_KEY }}" NOTIFY_TO="${{ secrets.NOTIFY_TO }}" PORTAL_URL="https://craftmaster7.github.io/cardworx/portal.html"
-      - run: supabase functions deploy notify-submission --no-verify-jwt
-      - run: supabase functions deploy invite-agent --no-verify-jwt
+      - run: supabase functions deploy notify-submission
+      - run: supabase functions deploy invite-agent
