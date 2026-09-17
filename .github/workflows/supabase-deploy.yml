@@ -40,9 +40,12 @@ jobs:
           echo "region: $host"
           sudo apt-get install -y -qq postgresql-client >/dev/null
           PGPASSWORD="$SUPABASE_DB_PASSWORD" psql "postgresql://postgres.$REF@aws-0-$host.pooler.supabase.com:5432/postgres?sslmode=require" -c "select 1" >/dev/null && echo "password ok"
-      - name: Link project
-        run: supabase link --project-ref "$REF"
-      - run: supabase db push --include-all
-      - run: supabase secrets set RESEND_API_KEY="${{ secrets.RESEND_API_KEY }}" NOTIFY_TO="${{ secrets.NOTIFY_TO }}" PORTAL_URL="https://craftmaster7.github.io/cardworx/portal.html"
-      - run: supabase functions deploy notify-submission
-      - run: supabase functions deploy invite-agent
+          echo "DBURL=postgresql://postgres.$REF:$(python3 -c "import urllib.parse,os;print(urllib.parse.quote(os.environ['SUPABASE_DB_PASSWORD'],safe=''))")@aws-0-$host.pooler.supabase.com:5432/postgres" >> "$GITHUB_ENV"
+      - name: Push database schema
+        run: supabase db push --include-all --db-url "$DBURL"
+      - name: Set function secrets
+        run: supabase secrets set --project-ref "$REF" RESEND_API_KEY="${{ secrets.RESEND_API_KEY }}" NOTIFY_TO="${{ secrets.NOTIFY_TO }}" PORTAL_URL="https://craftmaster7.github.io/cardworx/portal.html"
+      - name: Deploy notify-submission
+        run: supabase functions deploy notify-submission --project-ref "$REF" --no-verify-jwt
+      - name: Deploy invite-agent
+        run: supabase functions deploy invite-agent --project-ref "$REF" --no-verify-jwt
