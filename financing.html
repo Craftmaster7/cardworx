@@ -282,10 +282,11 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 .fin .head{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:end;margin-bottom:3rem}
 .fgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
 .fi{position:relative;min-height:230px;aspect-ratio:3/4;border-radius:var(--r);overflow:hidden;background:linear-gradient(160deg,rgba(31,163,154,.10),rgba(5,7,12,0));box-shadow:0 0 0 1px rgba(244,241,234,.07) inset;color:inherit;text-decoration:none}
-.fi::before{content:"0" counter(fi);counter-increment:fi;position:absolute;top:1.4rem;left:1.4rem;font-family:var(--display);font-size:2.2rem;color:var(--accent);opacity:.9}
+.fi::before{content:"0" counter(fi);counter-increment:fi;position:absolute;z-index:2;top:1.4rem;left:1.4rem;font-family:var(--display);font-size:2.2rem;color:var(--accent);opacity:.9}
 .fgrid{counter-reset:fi}
 .fi img{width:100%;height:100%;object-fit:cover;transition:transform 1.4s cubic-bezier(.2,.8,.2,1);filter:saturate(.8)}
 .fi:hover img{transform:scale(1.08)}
+.fi::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,7,12,.05) 35%,rgba(5,7,12,.88));z-index:1;pointer-events:none}
 
 .fi div{position:absolute;left:1.4rem;right:1.4rem;bottom:1.4rem;z-index:2;overflow-wrap:anywhere}
 .fi b{font-family:var(--display);font-size:1.2rem;display:block}
@@ -453,10 +454,10 @@ html[data-gen="1"] .ovl{display:block}
       <p class="lead" data-reveal>Fast decisioning, deep industry knowledge and competitive rates on both sides of the counter.</p>
     </div>
     <div class="fgrid">
-      <a class="fi" href="#merchant-form" data-reveal><div><b>Equipment Financing</b><span>Machines, vehicles, kitchens</span></div></a>
-      <a class="fi" href="#merchant-form" data-reveal><div><b>Expansion</b><span>Second location, build outs</span></div></a>
-      <a class="fi" href="#merchant-form" data-reveal><div><b>Working Capital</b><span>Inventory, payroll, cash flow</span></div></a>
-      <a class="fi" href="#merchant-form" data-reveal><div><b>Debt Financing</b><span>Consolidate and restructure</span></div></a>
+      <a class="fi" href="#merchant-form" data-reveal><img src="assets/fin-equipment.jpg" loading="lazy" decoding="async" alt="Commercial kitchen equipment financed for a restaurant"><div><b>Equipment Financing</b><span>Machines, vehicles, kitchens</span></div></a>
+      <a class="fi" href="#merchant-form" data-reveal><img src="assets/fin-expansion.jpg" loading="lazy" decoding="async" alt="Second location under construction"><div><b>Expansion</b><span>Second location, build outs</span></div></a>
+      <a class="fi" href="#merchant-form" data-reveal><img src="assets/fin-working-capital.jpg" loading="lazy" decoding="async" alt="Owner reviewing inventory and payroll"><div><b>Working Capital</b><span>Inventory, payroll, cash flow</span></div></a>
+      <a class="fi" href="#merchant-form" data-reveal><img src="assets/fin-debt.jpg" loading="lazy" decoding="async" alt="Owner consolidating business debt"><div><b>Debt Financing</b><span>Consolidate and restructure</span></div></a>
     </div>
     <div class="split">
       <div class="glass" data-reveal><span class="eb">Business funding</span><h3>Finance your growing business.</h3><p>Custom finance solutions with fast decisioning and much more than what's shown above.</p><ul><li>Equipment, expansion and working capital</li><li>Decisions in days, not months</li><li>Structured around your card volume</li></ul><a href="#merchant-form" class="btn btn-gold">Apply for funding</a></div>
