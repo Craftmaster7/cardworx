@@ -11,6 +11,28 @@ tail_start=rest.index('<footer>')
 footer_and_scripts=rest[tail_start:]
 body=rest[chrome_end:tail_start]
 parts=dict(re.findall(r'<!-- ([A-Z0-9 ]+?) -->\n(.*?)(?=\n<!-- [A-Z0-9 ]+? -->|\Z)',body,re.S))
+# Page-specific variants of the shared FINANCING block
+_fin=parts['FINANCING']
+_biz=_fin
+_biz=re.sub(r'<h2 class="h2">.*?</h2>','<h2 class="h2">Capital for the business <em>you\'re building.</em></h2>',_biz,count=1,flags=re.S)
+_biz=re.sub(r'<p class="lead" data-reveal>.*?</p>','<p class="lead" data-reveal>Fast decisioning, deep industry knowledge and competitive rates, structured around your card volume.</p>',_biz,count=1,flags=re.S)
+_biz=re.sub(r'\s*<div class="glass" data-reveal><span class="eb">Customer financing</span>.*?</div>(?=\s*</div>)','',_biz,count=1,flags=re.S)
+_biz=_biz.replace('<div class="split">','<div class="split" style="grid-template-columns:1fr">',1)
+parts['FINANCING_BIZ']=_biz
+_cust_card=re.search(r'<div class="glass" data-reveal><span class="eb">Customer financing</span>.*?</div>(?=\s*</div>)',_fin,re.S).group(0)
+parts['FINANCING_CUST']=f'''<section class="fin" id="customer-financing" data-theme="gold">
+  <div class="wrap">
+    <div class="head">
+      <div data-reveal><span class="eb">Customer financing</span><h2 class="h2">Let customers pay over time. <em>You get paid in full.</em></h2></div>
+      <p class="lead" data-reveal>Offer financing at the counter, online or on the invoice. Approvals in minutes, the lender funds you up front, and the customer repays the lender.</p>
+    </div>
+    <div class="split">
+      <div class="glass" data-reveal style="padding:0;overflow:hidden;min-height:320px"><img src="assets/svc-customer-financing.jpg" loading="lazy" decoding="async" alt="Couple approved for financing in a furniture showroom" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+      {_cust_card}
+    </div>
+  </div>
+</section>'''
+
 NAV={'Solutions':'index.html#services','Industries':'industries.html','Dual Pricing':'dual-pricing.html','Savings':'savings.html','Terminals':'terminals.html','Financing':'financing.html','Agents':'agents.html','FAQ':'faq.html'}
 PAGES={
  'index.html':dict(title='Cardworx Merchant Services | $0 Processing Fees, Cash Rewards, Wholesale Pricing',desc='Eliminate credit card processing fees with compliant Dual Pricing, earn monthly cash rewards, and get a free terminal. Wholesale merchant services in Boca Raton, FL.',
@@ -41,10 +63,10 @@ SOLUTIONS=[
   ['CONTACT'],'Crypto Payments for Businesses | Instant USD Conversion | Cardworx','Accept cryptocurrency from 575M+ consumers and receive US dollars with instant conversion and daily bank deposits.'),
  ('customer-financing.html','Customer Financing','Lending platform','Sell payment over price.','Point of sale financing lets your customers say yes to larger purchases. Retail, healthcare, home improvement, auto and services: when a customer can pay over time, the average ticket goes up and you get paid in full up front.',
   [('Bigger tickets','Customers buy what they want instead of what fits in one payment.'),('You get paid now','The lender funds you in full. The customer repays the lender.'),('Fast decisions','Applications take minutes at the counter or online, with instant decisions on most.'),('Broad approvals','Options across the credit spectrum, so more customers qualify.')],
-  ['FINANCING','CONTACT'],'Customer Financing & Point of Sale Lending | Cardworx','Offer point of sale financing so customers can pay over time. Bigger tickets, funded in full up front.'),
+  ['FINANCING_CUST','CONTACT'],'Customer Financing & Point of Sale Lending | Cardworx','Offer point of sale financing so customers can pay over time. Bigger tickets, funded in full up front.'),
  ('business-funding.html','Business Funding','Business financing','Capital for the business you\'re building.','Equipment, expansion, working capital and debt consolidation, with fast decisioning and rates built on deep industry knowledge. Funding structured around your card volume, so payments move with your sales.',
   [('Equipment','Machines, vehicles, kitchens and terminals. Finance the tools that make money.'),('Expansion','A second location, a build out, a bigger space.'),('Working capital','Inventory, payroll and cash flow gaps, covered in days.'),('Debt financing','Consolidate and restructure what you owe into something you can live with.')],
-  ['FINANCING','CONTACT'],'Business Funding | Equipment, Expansion & Working Capital | Cardworx','Fast business financing for equipment, expansion, working capital and debt, structured around your card sales.'),
+  ['FINANCING_BIZ','CONTACT'],'Business Funding | Equipment, Expansion & Working Capital | Cardworx','Fast business financing for equipment, expansion, working capital and debt, structured around your card sales.'),
  ('high-risk.html','High Risk & Cannabis','High risk','Every business deserves a fair chance to succeed.','Dispensaries, CBD, nutraceuticals, travel, subscription, adult, firearms and other categories that mainstream processors decline. Cardworx specializes in placing high risk merchants with stable banking and honest pricing.',
   [('Licensed cannabis','Compliant payment solutions for dispensaries and delivery.'),('Stable banking','Placements built to last, not accounts that get shut off in ninety days.'),('Honest pricing','High risk does not have to mean getting gouged. Wholesale rates apply here too.'),('Chargeback tools','Monitoring and dispute support that keeps your account healthy.')],
   ['CONTACT'],'High Risk Merchant Accounts & Cannabis Dispensary Processing | Cardworx','Specialized payment processing for cannabis dispensaries and high risk businesses that other providers turn away.'),
